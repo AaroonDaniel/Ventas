@@ -6,7 +6,7 @@ class Usuarios extends Controller{
     }
     public function index(){
         $data['usuarios'] = $this->model->getUsuarios();
-        $this->views->getView($this, "index");
+        $this->views->getView($this, "index", $data);
     }
 
     public function validar(){
