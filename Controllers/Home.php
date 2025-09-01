@@ -5,8 +5,10 @@ class Home extends Controller {
     }
 
     public function index() {
-        $data['usuarios'] = $this->model->getUsuarios();
-        $this->views->getView($this, "index", $data);
+        $this->views->getView($this, "index");
+    }
+    public function inicio(){
+        $this->views->getView($this, "inicio");
     }
 }
 ?>
