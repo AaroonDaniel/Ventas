@@ -5,8 +5,7 @@ class Usuarios extends Controller{
         parent::__construct();
     }
     public function index(){
-        $data['usuarios'] = $this->model->getUsuarios();
-        $this->views->getView($this, "index", $data);
+        $this->views->getView($this, "index");
     }
 
     public function validar(){
@@ -24,6 +23,12 @@ class Usuarios extends Controller{
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function listar(){
+        $data=$this->model->getUsuarios();
+        echo json_encode($data);
         die();
     }
 }

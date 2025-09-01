@@ -61,6 +61,14 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?=base_url?>Assets/js/sb-admin-2.min.js"></script>
+    <!-- Datatables -->
+    <script src="<?=base_url?>Assets/js/dataTables.min.js"></script>
+
+    <script>
+        const base_url = "<?=base_url?>";
+    </script>
+
+    <script src="<?=base_url?>Assets/js/funciones.js"></script>
 
 </body>
 

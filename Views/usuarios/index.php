@@ -5,7 +5,7 @@
         <div class="card-title">Lista de Usuarios</div>
     </div>
     <div class="card-body">
-        <table class="table">
+        <table id="tblUsuarios" class="table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -13,15 +13,6 @@
                     <th>Nombre</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php foreach ($data['usuarios'] as $usuario): ?>
-                    <tr>
-                        <td><?php echo $usuario['id_usuario']; ?></td>
-                        <td><?php echo $usuario['nick']; ?></td>
-                        <td><?php echo $usuario['nombre']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
         </table>
     </div>
 </div>
