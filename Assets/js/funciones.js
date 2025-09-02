@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
             {'data': 'id_usuario'},
             {'data': 'nick'},
             {'data': 'nombre'},
+            {'data': 'id_caja'},
+            {'data': 'usuario_estado'},
+            {'data': 'acciones'}
         ]
            
     })
