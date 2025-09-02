@@ -33,6 +33,11 @@ class Usuarios extends Controller
     {
         $data = $this->model->getUsuarios();
         for ($i = 0; $i < count($data); $i++) {
+            if($data[$i]['usuario_estado']==1){
+                $data[$i]['usuario_estado'] = '<span class="badge badge-success">Activo</span>';
+            }else{
+                $data[$i]['usuario_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
+            }
             $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" >Editar</button> <button class="btn btn-danger" type="button" >Inactivar</button>';
         }
         echo json_encode($data);

@@ -6,7 +6,8 @@ class UsuariosModel extends Query{
     }
 
     public function getUsuarios(){
-        $sql = "SELECT * FROM usuarios";
+        $sql = "select u.*, c.caja
+        from usuarios u inner join cajas c on c.id_caja = u.id_caja";
         $data = $this->selectAll($sql);
         return $data;
     }
