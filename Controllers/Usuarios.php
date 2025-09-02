@@ -44,4 +44,28 @@ class Usuarios extends Controller
         echo json_encode($data);
         die();
     }
+
+    public function registrar(){
+        $nick = $_POST['nick'];
+        $nombre = $_POST['nombre'];
+        $clave = $_POST['clave'];
+        $confirmar = $_POST['confirmar'];
+        $id_caja = $_POST['id_caja'];
+        if(empty($nick) || empty($nombre) || empty($id_caja)){
+            $msg = "Todos los campos son obligatorios";
+        }else{
+            if($clave != $confirmar){
+                $msg = "Las contraseñas no coinciden";
+            }else{
+                $data = $this->model->registrarUsuario($nick,$nombre,md5($clave),$id_caja);
+                if($data == "ok"){
+                    $msg = "si";
+                }else{
+                    $msg = "Error al registrar usuario";
+                }
+            }
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
 }

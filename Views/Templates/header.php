@@ -20,6 +20,9 @@
     <link href="<?=base_url?>Assets/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
     <!-- Datatables -->
     <link href="<?=base_url?>Assets/css/dataTables.dataTables.min.css" rel="stylesheet" tyoe="text/css">
+    <!--Sweet Alert-->
+    <link href="<?=base_url?>Assets/css/sweetalert2.min.css" rel="stylesheet" type="text/css">
+    
 
 </head>
 

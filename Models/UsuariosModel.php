@@ -1,5 +1,6 @@
 <?php
 class UsuariosModel extends Query{
+    private $nick, $nombre, $clave, $id_caja;
     public function __construct()
     {
         parent::__construct();
@@ -23,5 +24,21 @@ class UsuariosModel extends Query{
         $data=$this->selectAll($sql);
         return $data;
     }
+
+    public function registrarUsuario(string $nick, string $nombre, string $clave, int $id_caja){
+        $this->nick = $nick;
+        $this->nombre = $nombre;
+        $this->clave = $clave;
+        $this->id_caja = $id_caja;
+        $sql = "INSERT INTO usuarios(nick,nombre,clave,id_caja) VALUES (?,?,?,?)";
+        $datos = array($this->nick, $this->nombre, $this->clave, $this->id_caja);
+        $data=$this->save($sql,$datos);
+        if($data==1){
+            $res = "ok";
+        }else{
+            $res = "Error ";
+        }
+        return $res;
+    } 
 }
 ?>

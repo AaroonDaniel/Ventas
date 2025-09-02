@@ -47,8 +47,20 @@ function registrarUsuario(e){
     const nombre = document.getElementById('nombre')
     const clave = document.getElementById('clave')
     if(nick.value == '' || nombre.value == '' || clave.value == ''){
-        alert('Todos los campos son obligatorios','warning')
+        Swal.fire({
+            title: "Alerta",
+            text: "Los campos son obligatorios",
+            icon: "warning",
+        })
     }else{
-        alert('Datos enviados')
+        const url = base_url + 'Usuarios/registrar'
+        const frm = document.getElementById('frmUsuario')
+        const http = new XMLHttpRequest()
+        http.open('POST', url, true)
+        http.send(new FormData(frm))
+        http.onreadystatechange = function(){
+            console.log(this.responseText);
+            
+        }
     }
 }

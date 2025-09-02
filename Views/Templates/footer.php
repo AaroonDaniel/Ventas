@@ -64,6 +64,9 @@
 <!-- Datatables -->
 <script src="<?= base_url ?>Assets/js/dataTables.min.js"></script>
 
+<!--Sweet Alert-->
+<script src="<?= base_url ?>Assets/js/sweetalert2.all.min.js"></script>
+
 <script>
     const base_url = "<?= base_url ?>";
 </script>

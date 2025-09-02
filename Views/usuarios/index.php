@@ -32,7 +32,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="frmUsuario">
           <div class="form-group">
             <label for="nick" class="col-form-label">Nick de usuario:</label>
             <input type="text" class="form-control" id="nick" name="nick">
