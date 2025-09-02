@@ -7,7 +7,8 @@ class Usuarios extends Controller
     }
     public function index()
     {
-        $this->views->getView($this, "index");
+        $data['cajas']=$this->model->getCajas();
+        $this->views->getView($this, "index",$data);
     }
 
     public function validar()

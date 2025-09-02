@@ -36,3 +36,19 @@ document.addEventListener('DOMContentLoaded', function () {
            
     })
 })
+
+function frmUsuario(){
+    $('#usuarioModal').modal('show')
+}
+
+function registrarUsuario(e){
+    e.preventDefault()
+    const nick = document.getElementById('nick')
+    const nombre = document.getElementById('nombre')
+    const clave = document.getElementById('clave')
+    if(nick.value == '' || nombre.value == '' || clave.value == ''){
+        alert('Todos los campos son obligatorios','warning')
+    }else{
+        alert('Datos enviados')
+    }
+}
