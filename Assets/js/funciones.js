@@ -69,6 +69,16 @@ function registrarUsuario(e) {
         })
         $("#usuarioModal").modal("hide")
         tblUsuarios.ajax.reload();
+      }else if(res == "mod"){
+        Swal.fire({
+          title: "Datos modificados con exito",
+          text: "",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000
+        })
+        $("#usuarioModal").modal("hide")
+        tblUsuarios.ajax.reload();
       }else{
         Swal.fire({
           title: "Error!",
@@ -89,9 +99,19 @@ function btnEditarUsuario(id) {
   http.open("GET", url, true);
   http.send();
   http.onreadystatechange = function () {
-    console.log(this.responseText)
+    if(this.readyState == 4 && this.status == 200){
+      const res = JSON.parse(this.responseText);
+      document.getElementById("id_usuario").value = res.id_usuario;
+      document.getElementById("nick").value = res.nick;
+      document.getElementById("nombre").value = res.nombre;
+      document.getElementById("id_caja").value = res.id_caja;
+      document.getElementById("clave").value = 1;
+      document.getElementById("claves").classList.add('d-none');
+      $('#usuarioModal').modal('show');
+
+    }
   }
-  $('#usuarioModal').modal('show');
+  
 }
 
 function btnInactivarUsuario(id) {

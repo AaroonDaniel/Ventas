@@ -35,6 +35,7 @@
         <form id="frmUsuario">
           <div class="form-group">
             <label for="nick" class="col-form-label">Nick de usuario:</label>
+            <input type="hidden" id="id_usuario" name="id_usuario">
             <input type="text" class="form-control" id="nick" name="nick">
           </div>
           <div class="form-group">
@@ -42,7 +43,7 @@
             <input type="text" class="form-control" id="nombre" name="nombre">
           </div>
 
-          <div class="row">
+          <div class="row" id="claves">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="clave" class="col-form-label">Clave:</label>
