@@ -80,3 +80,20 @@ function registrarUsuario(e) {
     };
   }
 }
+
+function btnEditarUsuario(id) {
+  document.getElementById("title").innerHTML = "Actualizar Usuario";
+  document.getElementById("btnAccion").innerHTML = "Modificar";
+  const url = base_url + "Usuarios/editar/" + id;
+  const http = new XMLHttpRequest();
+  http.open("GET", url, true);
+  http.send();
+  http.onreadystatechange = function () {
+    console.log(this.responseText)
+  }
+  $('#usuarioModal').modal('show');
+}
+
+function btnInactivarUsuario(id) {
+  console.log(id)
+}

@@ -39,7 +39,8 @@ class Usuarios extends Controller
             }else{
                 $data[$i]['usuario_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
             }
-            $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" >Editar</button> <button class="btn btn-danger" type="button" >Inactivar</button>';
+            $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarUsuario('.$data[$i]['id_usuario'].')">Editar</button> 
+            <button class="btn btn-danger" type="button" onclick="btnInactivarUsuario('.$data[$i]['id_usuario'].')">Inactivar</button>';
         }
         echo json_encode($data);
         die();
@@ -66,6 +67,12 @@ class Usuarios extends Controller
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function editar($id){
+        $data=$this->model->editarUsuario($id);
+        echo json_encode($data);
         die();
     }
 }

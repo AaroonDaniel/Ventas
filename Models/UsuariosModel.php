@@ -40,5 +40,11 @@ class UsuariosModel extends Query{
         }
         return $res;
     } 
+
+    public function editarUsuario(int $id){
+        $sql = "select * from usuarios where id_usuario = '".$id."'";
+        $data = $this->select($sql);
+        return $data;
+    }
 }
 ?>

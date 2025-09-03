@@ -74,7 +74,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary" onclick="registrarUsuario(event)">Guardar</button>
+        <button type="submit" class="btn btn-primary" id="btnAccion" onclick="registrarUsuario(event)">Guardar</button>
       </div>
     </div>
   </div>
