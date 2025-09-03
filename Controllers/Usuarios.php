@@ -19,7 +19,7 @@ class Usuarios extends Controller
             $nick = $_POST['nick'];
             $clave = $_POST['clave'];
 
-            $data = $this->model->getUsuario($nick, $clave);
+            $data = $this->model->getUsuario($nick, md5($clave));
             if ($data) {
                 $msg = "ok";
             } else {
