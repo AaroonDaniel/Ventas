@@ -40,7 +40,8 @@ class Usuarios extends Controller
                 $data[$i]['usuario_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
             }
             $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarUsuario(' . $data[$i]['id_usuario'] . ')">Editar</button> 
-            <button class="btn btn-danger" type="button" onclick="btnInactivarUsuario(' . $data[$i]['id_usuario'] . ')">Inactivar</button>';
+            <button class="btn btn-danger" type="button" onclick="btnInactivarUsuario(' . $data[$i]['id_usuario'] . ')">Inactivar</button>
+            <button class="btn btn-success" type="button" onclick="btnActivarUsuario(' . $data[$i]['id_usuario'] . ')">Activar</button>';
         }
         echo json_encode($data);
         die();
@@ -86,5 +87,15 @@ class Usuarios extends Controller
         $data = $this->model->editarUsuario($id);
         echo json_encode($data);
         die();
+    }
+
+    public function inactivar($id)
+    {
+        $this->model->accion(0,$id);
+    }
+
+    public function activar($id)
+    {
+        $this->model->accion(1,$id);
     }
 }

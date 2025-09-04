@@ -115,5 +115,63 @@ function btnEditarUsuario(id) {
 }
 
 function btnInactivarUsuario(id) {
-  console.log(id)
+  Swal.fire({
+    title: "¿Quieres inactivar el usuario?",
+    text: "El usuario no se eliminara, solo se inactivara",
+    icon: "warning",
+    showcancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, inactivar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = base_url + "Usuarios/inactivar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        console.log(this.responseText);
+        tblUsuarios.ajax.reload();
+        
+      }
+      Swal.fire({
+        title: "Registrando inactivado",
+        text: "",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  });
+}
+
+function btnActivarUsuario(id) {
+  Swal.fire({
+    title: "¿Estas seguro de activar el usuario?",
+    text: "",
+    icon: "warning",
+    showcancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, confirmar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = base_url + "Usuarios/activar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        console.log(this.responseText);
+        tblUsuarios.ajax.reload();
+        
+      }
+      Swal.fire({
+        title: "Registrado activado",
+        text: "",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  });
 }
