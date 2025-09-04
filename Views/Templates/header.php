@@ -63,7 +63,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="<?=base_url?>Usuarios">Usuarios</a>
-                        <a class="collapse-item" href="cards.html">Cajas</a>
+                        <a class="collapse-item" href="<?=base_url?>Cajas">Cajas</a>
+
                     </div>
                 </div>
             </li>
