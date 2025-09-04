@@ -37,7 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function frmUsuario() {
+  document.getElementById("frmUsuario").reset();
+  document.getElementById("id_usuario").value = "";
+  document.getElementById("title").innerHTML = "Registrar Usuario";
+  document.getElementById("btnAccion").innerHTML = "Guardar";
+  document.getElementById("claves").classList.remove('d-none');
   $("#usuarioModal").modal("show");
+
 }
 
 function registrarUsuario(e) {

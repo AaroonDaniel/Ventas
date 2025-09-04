@@ -36,12 +36,14 @@ class Usuarios extends Controller
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['usuario_estado'] == 1) {
                 $data[$i]['usuario_estado'] = '<span class="badge badge-success">Activo</span>';
+                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarUsuario(' . $data[$i]['id_usuario'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
+            <button class="btn btn-danger" type="button" onclick="btnInactivarUsuario(' . $data[$i]['id_usuario'] . ')" title="Inactivar"><i class="fas fa-trash-alt" ></i></button>';
             } else {
                 $data[$i]['usuario_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
+                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarUsuario(' . $data[$i]['id_usuario'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
+            <button class="btn btn-success" type="button" onclick="btnActivarUsuario(' . $data[$i]['id_usuario'] . ')" title="Activar"><i class="fas fa-arrow-circle-up" ></i></button>';
             }
-            $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarUsuario(' . $data[$i]['id_usuario'] . ')">Editar</button> 
-            <button class="btn btn-danger" type="button" onclick="btnInactivarUsuario(' . $data[$i]['id_usuario'] . ')">Inactivar</button>
-            <button class="btn btn-success" type="button" onclick="btnActivarUsuario(' . $data[$i]['id_usuario'] . ')">Activar</button>';
+            
         }
         echo json_encode($data);
         die();
