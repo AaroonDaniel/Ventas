@@ -1,5 +1,6 @@
 let tblUsuarios;
 let tblCajas;
+let tblClientes;
 document.addEventListener("DOMContentLoaded", function () {
   tblUsuarios = $("#tblUsuarios").DataTable({
     ajax: {
@@ -45,6 +46,41 @@ document.addEventListener("DOMContentLoaded", function () {
       { data: "id_caja" },
       { data: "caja" },
       { data: "caja_estado" },
+      { data: "acciones" },
+    ],
+    language: {
+      decimal: "",
+      emptyTable: "No hay información",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+      infoFiltered: "(Filtrado de _MAX_ total entradas)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ Entradas",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "Sin resultados encontrados",
+      paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior",
+      },
+    },
+  });
+
+  tblClientes = $("#tblClientes").DataTable({
+    ajax: {
+      url: base_url + "Clientes/listar",
+      dataSrc: "",
+    },
+    columns: [
+      { data: "razon_social" },
+      { data: "documentoid" },
+      { data: "complementoid" },
+      { data: "cliente_email" },
+      { data: "cliente_estado" },
       { data: "acciones" },
     ],
     language: {
@@ -357,6 +393,157 @@ function btnActivarCaja(id) {
       http.onreadystatechange = function () {
         console.log(this.responseText);
         tblCajas.ajax.reload();
+      };
+      Swal.fire({
+        title: "Registrado activado",
+        text: "",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  });
+}
+
+
+//CLIENTES
+function frmCliente() {
+  document.getElementById("frmCliente").reset();
+  document.getElementById("id_cliente").value = "";
+  document.getElementById("title").innerHTML = "Nuevo Cliente";
+  document.getElementById("btnAccion").innerHTML = "Guardar";
+  $("#clienteModal").modal("show");
+}
+
+function registrarCliente(e) {
+  e.preventDefault();
+  const documentoid = document.getElementById("documentoid");
+  const razon_social = document.getElementById("razon_social");
+  if (documentoid.value == "" || razon_social.value == "" ) {
+    Swal.fire({
+      title: "Alerta",
+      text: "Los campos son obligatorios",
+      icon: "warning",
+    });
+  } else {
+    const url = base_url + "Clientes/registrar";
+    const frm = document.getElementById("frmCliente");
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send(new FormData(frm));
+    http.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        try {
+          const res = JSON.parse(this.responseText);
+          if (res == "si") {
+            Swal.fire({
+              title: "Datos registrados",
+              text: "",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            $("#clienteModal").modal("hide");
+            tblClientes.ajax.reload();
+          } else if (res == "mod") {
+            Swal.fire({
+              title: "Datos modificados con exito",
+              text: "",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            $("#clienteModal").modal("hide");
+            tblClientes.ajax.reload();
+          } else {
+            Swal.fire({
+              title: "Error!",
+              text: res,
+              icon: "error",
+              timer: 4000,
+            });
+          }
+        } catch (error) {
+          console.error("Error al parsear JSON:", this.responseText);
+          Swal.fire({
+            title: "Error",
+            text: "Error inesperado en el servidor",
+            icon: "error",
+          });
+        }
+      }
+    };
+  }
+}
+
+function btnEditarCliente(id) {
+  document.getElementById("title").innerHTML = "Actualizar Cliente";
+  document.getElementById("btnAccion").innerHTML = "Modificar";
+  const url = base_url + "Clientes/editar/" + id;
+  const http = new XMLHttpRequest();
+  http.open("GET", url, true);
+  http.send();
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
+      document.getElementById("id_cliente").value = res.id_cliente;
+      document.getElementById("documentoid").value = res.documentoid;
+      document.getElementById("complementoid").value = res.complementoid;
+      document.getElementById("razon_social").value = res.razon_social;
+      document.getElementById("cliente_email").value = res.cliente_email;
+      $("#clienteModal").modal("show");
+    }
+  };
+}
+
+function btnInactivarCliente(id) {
+  Swal.fire({
+    title: "¿Quieres inactivar al cliente?",
+    text: "El cliente no se eliminara, solo se inactivara",
+    icon: "warning",
+    showcancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, inactivar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = base_url + "Clientes/inactivar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        console.log(this.responseText);
+        tblClientes.ajax.reload();
+      };
+      Swal.fire({
+        title: "Registrando inactivado",
+        text: "",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  });
+}
+
+function btnActivarCliente(id) {
+  Swal.fire({
+    title: "¿Estas seguro de activar el cliente?",
+    text: "",
+    icon: "warning",
+    showcancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, confirmar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = base_url + "Clientes/activar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        console.log(this.responseText);
+        tblClientes.ajax.reload();
       };
       Swal.fire({
         title: "Registrado activado",

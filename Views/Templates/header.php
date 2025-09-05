@@ -64,6 +64,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="<?=base_url?>Usuarios">Usuarios</a>
                         <a class="collapse-item" href="<?=base_url?>Cajas">Cajas</a>
+                        <a class="collapse-item" href="<?=base_url?>Clientes">Clientes</a>
 
                     </div>
                 </div>
