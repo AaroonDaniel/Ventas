@@ -65,6 +65,8 @@
                         <a class="collapse-item" href="<?=base_url?>Usuarios">Usuarios</a>
                         <a class="collapse-item" href="<?=base_url?>Cajas">Cajas</a>
                         <a class="collapse-item" href="<?=base_url?>Clientes">Clientes</a>
+                        <a class="collapse-item" href="<?=base_url?>Categorias">Categorias</a>
+                        <a class="collapse-item" href="<?=base_url?>Medidas">Unidad Med.</a>
 
                     </div>
                 </div>

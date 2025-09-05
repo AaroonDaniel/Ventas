@@ -1,6 +1,7 @@
 let tblUsuarios;
 let tblCajas;
 let tblClientes;
+let tblCategorias;
 document.addEventListener("DOMContentLoaded", function () {
   tblUsuarios = $("#tblUsuarios").DataTable({
     ajax: {
@@ -81,6 +82,39 @@ document.addEventListener("DOMContentLoaded", function () {
       { data: "complementoid" },
       { data: "cliente_email" },
       { data: "cliente_estado" },
+      { data: "acciones" },
+    ],
+    language: {
+      decimal: "",
+      emptyTable: "No hay información",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+      infoFiltered: "(Filtrado de _MAX_ total entradas)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ Entradas",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "Sin resultados encontrados",
+      paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior",
+      },
+    },
+  });
+  tblCategorias = $("#tblCategorias").DataTable({
+    ajax: {
+      url: base_url + "Categorias/listar",
+      dataSrc: "",
+    },
+    columns: [
+      { data: "id_categoria" },
+      { data: "nombre_categoria" },
+      { data: "codigoProductoSin" },
+      { data: "categoria_estado" },
       { data: "acciones" },
     ],
     language: {
@@ -544,6 +578,154 @@ function btnActivarCliente(id) {
       http.onreadystatechange = function () {
         console.log(this.responseText);
         tblClientes.ajax.reload();
+      };
+      Swal.fire({
+        title: "Registrado activado",
+        text: "",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  });
+}
+
+//CATEGORIAS
+function frmCategoria() {
+  document.getElementById("frmCategoria").reset();
+  document.getElementById("id_categoria").value = "";
+  document.getElementById("title").innerHTML = "Nueva Categoria";
+  document.getElementById("btnAccion").innerHTML = "Guardar";
+  $("#categoriaModal").modal("show");
+}
+
+function registrarCategoria(e) {
+  e.preventDefault();
+  const nombre_categoria = document.getElementById("nombre_categoria");
+  const codigoProductoSin = document.getElementById("codigoProductoSin");
+  if (nombre_categoria.value == "" || codigoProductoSin.value == "" ) {
+    Swal.fire({
+      title: "Alerta",
+      text: "Los campos son obligatorios",
+      icon: "warning",
+    });
+  } else {
+    const url = base_url + "Categorias/registrar";
+    const frm = document.getElementById("frmCategoria");
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send(new FormData(frm));
+    http.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        try {
+          const res = JSON.parse(this.responseText);
+          if (res == "si") {
+            Swal.fire({
+              title: "Datos registrados",
+              text: "",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            $("#categoriaModal").modal("hide");
+            tblCategorias.ajax.reload();
+          } else if (res == "mod") {
+            Swal.fire({
+              title: "Datos modificados con exito",
+              text: "",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            $("#categoriaModal").modal("hide");
+            tblCategorias.ajax.reload();
+          } else {
+            Swal.fire({
+              title: "Error!",
+              text: res,
+              icon: "error",
+              timer: 4000,
+            });
+          }
+        } catch (error) {
+          console.error("Error al parsear JSON:", this.responseText);
+          Swal.fire({
+            title: "Error",
+            text: "Error inesperado en el servidor",
+            icon: "error",
+          });
+        }
+      }
+    };
+  }
+}
+
+function btnEditarCategoria(id) {
+  document.getElementById("title").innerHTML = "Actualizar Categoria";
+  document.getElementById("btnAccion").innerHTML = "Modificar";
+  const url = base_url + "Categorias/editar/" + id;
+  const http = new XMLHttpRequest();
+  http.open("GET", url, true);
+  http.send();
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
+      document.getElementById("id_categoria").value = res.id_categoria;
+      document.getElementById("nombre_categoria").value = res.nombre_categoria;
+      document.getElementById("codigoProductoSin").value = res.codigoProductoSin;
+      $("#categoriaModal").modal("show");
+    }
+  };
+}
+
+function btnInactivarCategoria(id) {
+  Swal.fire({
+    title: "¿Quieres inactivar la categoria?",
+    text: "La categoria no se eliminara, solo se inactivara",
+    icon: "warning",
+    showcancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, inactivar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = base_url + "Categorias/inactivar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        console.log(this.responseText);
+        tblCategorias.ajax.reload();
+      };
+      Swal.fire({
+        title: "Registrando inactivado",
+        text: "",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  });
+}
+
+function btnActivarCategoria(id) {
+  Swal.fire({
+    title: "¿Estas seguro de activar la categoria?",
+    text: "",
+    icon: "warning",
+    showcancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, confirmar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = base_url + "Categorias/activar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        console.log(this.responseText);
+        tblCategorias.ajax.reload();
       };
       Swal.fire({
         title: "Registrado activado",
