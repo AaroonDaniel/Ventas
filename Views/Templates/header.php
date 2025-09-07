@@ -67,6 +67,7 @@
                         <a class="collapse-item" href="<?=base_url?>Clientes">Clientes</a>
                         <a class="collapse-item" href="<?=base_url?>Categorias">Categorias</a>
                         <a class="collapse-item" href="<?=base_url?>Medidas">Unidad Med.</a>
+                        <a class="collapse-item" href="<?=base_url?>Productos">Productos.</a>
 
                     </div>
                 </div>
