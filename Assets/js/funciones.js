@@ -1114,3 +1114,20 @@ function btnActivarProducto(id) {
     }
   });
 }
+
+
+//PEDIDOS
+
+function buscarCliente()
+{
+  let documentoid = document.getElementById("documentoid").value
+  $.ajax ({
+    type : "POST",
+    url: base_url + "Pedidos/buscarCliente",
+    data: {documentoid: documentoid}, 
+    dataType: "json",
+    success: function(data){
+      console.log(data)
+    }
+  })
+}
