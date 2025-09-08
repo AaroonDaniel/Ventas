@@ -1136,26 +1136,65 @@ function buscarCliente() {
           title: "El cliente no existe",
           text: "",
           icon: "error",
-          timer: 2000
+          timer: 2000,
         });
-      }else{
-        document.getElementById("razon_social").value = data["razon_social"]
-        document.getElementById("cliente_email").value = data["cliente_email"]
-
+      } else {
+        document.getElementById("razon_social").value = data["razon_social"];
+        document.getElementById("cliente_email").value = data["cliente_email"];
       }
     },
   });
 }
 
-function buscarProducto(){
-  let codigo = document.getElementById("codigo").value
+function buscarProducto() {
+  let codigo = document.getElementById("codigo").value;
   $.ajax({
     type: "POST",
     url: base_url + "Pedidos/buscarProducto",
-    data: {codigo: codigo},
+    data: { codigo: codigo },
     dataType: "json",
     success: function (data) {
-      console.log(data)
+      console.log(data);
+      if (data == "error") {
+        Swal.fire({
+          title: "El producto no existe",
+          text: "",
+          icon: "error",
+          timer: 2000,
+        });
+      }else{
+        document.getElementById("nombre_producto").value = data["nombre_produto"]
+        document.getElementById("descripcion_corta").value = data["descripcion_corta"]
+        document.getElementById("cantidad").value = 1
+        document.getElementById("precio_venta").value = data["precio_venta"]
+        document.getElementById("descProducto").value = "0.00"
+        document.getElementById("sTotal").value = data["precio_venta"]
+        document.getElementById("unidad_siat").value = data["unidad_siat"]
+        document.getElementById("codigoProductoSin").value = data["codigoProductoSin"]
+
+
+      } 
     }
-  })  
+  });
+}
+
+function calcularstotal(){
+  let cantidad = document.getElementById("cantidad").value
+  let precio_venta = document.getElementById("precio_venta").value
+  let descProducto = document.getElementById("descProducto").value
+  document.getElementById("sTotal").value = ((cantidad * precio_venta)-descProducto).toFixed(2)
+}
+
+
+var arrayProductos = []
+
+function cargarProductos(){
+  let codigo = document.getElementById("codigo").value
+  let codigoProductoSin = document.getElementById("codigoProductoSin").value
+  let nombre_producto = document.getElementById("nombre_producto").value
+  let precio_venta = document.getElementById("precio_venta").value
+  let cantidad = document.getElementById("cantidad").value
+  let descProducto = document.getElementById("descProducto").value
+  let sTotal = document.getElementById("sTotal").value
+   
 }

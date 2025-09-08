@@ -71,6 +71,7 @@
                     <label for="codigo">Cod. Producto</label>
                     <div class="input-group-append">
                         <input type="text" class="form-control" id="codigo" name="codigo">
+                        <input type="hidden" id="codigoProductoSin" name="codigoProductoSin">
                         <button class="btn btn-outline-secondary" type="button" onclick="buscarProducto()">
                             <i class="fas fa-search"></i>
                         </button>
@@ -84,22 +85,23 @@
 
                 <div class="form-group col-md-1">
                     <label for="descripcion_corta">U. Med</label>
+                    <input type="hidden" id="unidad_siat" name="unidad_siat">
                     <input type="text" class="form-control" id="descripcion_corta" name="descripcion_corta">
                 </div>
 
                 <div class="form-group col-md-1">
                     <label for="cantidad">Cantidad</label>
-                    <input type="text" class="form-control" id="cantidad" name="cantidad">
+                    <input type="number" class="form-control" id="cantidad" name="cantidad" onchange="calcularstotal()">
                 </div>
 
                 <div class="form-group col-md-1">
                     <label for="precio_venta">Precio</label>
-                    <input type="text" class="form-control" id="precio_venta" name="precio_venta">
+                    <input type="text" class="form-control" id="precio_venta" name="precio_venta" onchange="calcularstotal()" onkeyup="calcularstotal()">
                 </div>
 
                 <div class="form-group col-md-1">
                     <label for="descProducto">Descuento</label>
-                    <input type="number" class="form-control" id="descProducto" name="descProducto">
+                    <input type="number" class="form-control" id="descProducto" name="descProducto" onchange="calcularstotal()" onkeyup="calcularstotal()">
                 </div>
 
                 <div class="form-group col-md-2">
@@ -115,6 +117,23 @@
             </div>
         </div>
 
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Descuento</th>
+                        <th>S. Total</th>
+                    </tr>
+                </thead>
+                <tbody id="detalles"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 <?php require_once "Views/Templates/footer.php"; ?>
