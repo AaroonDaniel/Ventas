@@ -23,6 +23,16 @@ class Pedidos extends Controller{
             echo json_encode($msg);
         }
     }
+    public function buscarProducto(){
+        $codigo = $_POST["codigo"];
+        $data=$this->model->buscarProducto($codigo);
+        if($data){
+            echo json_encode($data);
+        }else{
+            $msg = "error";
+            echo json_encode($msg);
+        }
+    }
 
 } 
 

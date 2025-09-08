@@ -1146,3 +1146,16 @@ function buscarCliente() {
     },
   });
 }
+
+function buscarProducto(){
+  let codigo = document.getElementById("codigo").value
+  $.ajax({
+    type: "POST",
+    url: base_url + "Pedidos/buscarProducto",
+    data: {codigo: codigo},
+    dataType: "json",
+    success: function (data) {
+      console.log(data)
+    }
+  })  
+}

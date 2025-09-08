@@ -52,13 +52,69 @@
                         <span class="input-group-text"> Desc. Add.</span>
                         <input type="number" class="form-control" id="descAdicional" name="descAdicional" min="0.00" value="0.00" step="0.01" style="text-align: right;">
                     </div>
-                     <div class="input-group">
+                    <div class="input-group">
                         <span class="input-group-text">Total:</span>
                         <input type="number" class="form-control" id="total" name="total" min="0.00" value="0.00" step="0.01" style="text-align: right;" readonly>
                     </div>
                 </div>
             </div>
         </div>
+
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Agregar productos</div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label for="codigo">Cod. Producto</label>
+                    <div class="input-group-append">
+                        <input type="text" class="form-control" id="codigo" name="codigo">
+                        <button class="btn btn-outline-secondary" type="button" onclick="buscarProducto()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="nombre_producto">Producto</label>
+                    <input type="text" class="form-control" id="nombre_producto" name="nombre_producto">
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="descripcion_corta">U. Med</label>
+                    <input type="text" class="form-control" id="descripcion_corta" name="descripcion_corta">
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="cantidad">Cantidad</label>
+                    <input type="text" class="form-control" id="cantidad" name="cantidad">
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="precio_venta">Precio</label>
+                    <input type="text" class="form-control" id="precio_venta" name="precio_venta">
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="descProducto">Descuento</label>
+                    <input type="number" class="form-control" id="descProducto" name="descProducto">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="sTotal">S. Total</label>
+                    <input type="text" class="form-control" id="sTotal" name="sTotal">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="">&nbsp;</label>
+                    <div class="input-group">
+                        <button class="btn btn-info" type="button" onclick="cargarProductos()"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <?php require_once "Views/Templates/footer.php"; ?>
