@@ -379,7 +379,7 @@ function frmCaja() {
 function registrarCaja(e) {
   e.preventDefault();
   const caja = document.getElementById("caja");
-  if (caja.value == "" ) {
+  if (caja.value == "") {
     Swal.fire({
       title: "Alerta",
       text: "Los campos son obligatorios",
@@ -513,7 +513,6 @@ function btnActivarCaja(id) {
   });
 }
 
-
 //CLIENTES
 function frmCliente() {
   document.getElementById("frmCliente").reset();
@@ -527,7 +526,7 @@ function registrarCliente(e) {
   e.preventDefault();
   const documentoid = document.getElementById("documentoid");
   const razon_social = document.getElementById("razon_social");
-  if (documentoid.value == "" || razon_social.value == "" ) {
+  if (documentoid.value == "" || razon_social.value == "") {
     Swal.fire({
       title: "Alerta",
       text: "Los campos son obligatorios",
@@ -677,7 +676,7 @@ function registrarCategoria(e) {
   e.preventDefault();
   const nombre_categoria = document.getElementById("nombre_categoria");
   const codigoProductoSin = document.getElementById("codigoProductoSin");
-  if (nombre_categoria.value == "" || codigoProductoSin.value == "" ) {
+  if (nombre_categoria.value == "" || codigoProductoSin.value == "") {
     Swal.fire({
       title: "Alerta",
       text: "Los campos son obligatorios",
@@ -746,7 +745,8 @@ function btnEditarCategoria(id) {
       const res = JSON.parse(this.responseText);
       document.getElementById("id_categoria").value = res.id_categoria;
       document.getElementById("nombre_categoria").value = res.nombre_categoria;
-      document.getElementById("codigoProductoSin").value = res.codigoProductoSin;
+      document.getElementById("codigoProductoSin").value =
+        res.codigoProductoSin;
       $("#categoriaModal").modal("show");
     }
   };
@@ -826,7 +826,11 @@ function registrarMedida(e) {
   const descripcion_medida = document.getElementById("descripcion_medida");
   const descripcion_corta = document.getElementById("descripcion_corta");
   const unidad_siat = document.getElementById("unidad_siat");
-  if (descripcion_medida.value == "" || descripcion_corta.value == "" || unidad_siat.value == "" ) {
+  if (
+    descripcion_medida.value == "" ||
+    descripcion_corta.value == "" ||
+    unidad_siat.value == ""
+  ) {
     Swal.fire({
       title: "Alerta",
       text: "Los campos son obligatorios",
@@ -894,8 +898,10 @@ function btnEditarMedida(id) {
     if (this.readyState == 4 && this.status == 200) {
       const res = JSON.parse(this.responseText);
       document.getElementById("id_medida").value = res.id_medida;
-      document.getElementById("descripcion_medida").value = res.descripcion_medida;
-      document.getElementById("descripcion_corta").value = res.descripcion_corta;
+      document.getElementById("descripcion_medida").value =
+        res.descripcion_medida;
+      document.getElementById("descripcion_corta").value =
+        res.descripcion_corta;
       document.getElementById("unidad_siat").value = res.unidad_siat;
       $("#medidaModal").modal("show");
     }
@@ -975,7 +981,7 @@ function registrarProducto(e) {
   e.preventDefault();
   const codigo = document.getElementById("codigo");
   const nombre_producto = document.getElementById("nombre_producto");
-  if (codigo.value == "" || nombre_producto.value == "" ) {
+  if (codigo.value == "" || nombre_producto.value == "") {
     Swal.fire({
       title: "Alerta",
       text: "Los campos son obligatorios",
@@ -1115,19 +1121,28 @@ function btnActivarProducto(id) {
   });
 }
 
-
 //PEDIDOS
 
-function buscarCliente()
-{
-  let documentoid = document.getElementById("documentoid").value
-  $.ajax ({
-    type : "POST",
+function buscarCliente() {
+  let documentoid = document.getElementById("documentoid").value;
+  $.ajax({
+    type: "POST",
     url: base_url + "Pedidos/buscarCliente",
-    data: {documentoid: documentoid}, 
+    data: { documentoid: documentoid },
     dataType: "json",
-    success: function(data){
-      console.log(data)
-    }
-  })
+    success: function (data) {
+      if (data == "error") {
+        Swal.fire({
+          title: "El cliente no existe",
+          text: "",
+          icon: "error",
+          timer: 2000
+        });
+      }else{
+        document.getElementById("razon_social").value = data["razon_social"]
+        document.getElementById("cliente_email").value = data["cliente_email"]
+
+      }
+    },
+  });
 }
