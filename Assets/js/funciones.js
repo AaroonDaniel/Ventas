@@ -1179,6 +1179,13 @@ function buscarProducto() {
 }
 
 function calcularstotal() {
+  let totalPedido = 0
+  for(var i=0; i<arrayProductos.length; i++){
+    totalPedido += parseFloat(arrayProductos[i].sTotal)
+  }
+  document.getElementById("subTotal").value= totalPedido.toFixed(2)
+  let descAdicional = document.getElementById("descAdicional").value
+  document.getElementById("total").value = (totalPedido - descAdicional).toFixed(2)
   let cantidad = document.getElementById("cantidad").value
   let precio_venta = document.getElementById("precio_venta").value
   let descProducto = document.getElementById("descProducto").value
@@ -1214,7 +1221,7 @@ function cargarProductos() {
 
   document.getElementById("codigo").value = ""
   document.getElementById("nombre_producto").value = ""
-  document.getElementById("precio_venta").value = ""   // corregido
+  document.getElementById("precio_venta").value = ""   
   document.getElementById("cantidad").value = ""
   document.getElementById("descProducto").value = ""
   document.getElementById("sTotal").value = ""
@@ -1234,6 +1241,27 @@ function armarPedido() {
       '<td>' + detalle.descProducto + '</td>' +
       '<td>' + detalle.sTotal + '</td>'
 
-    detalles.appendChild(fila)
+    let tdEliminar = document.createElement("td")
+    let botonEliminar = document.createElement("button")
+    botonEliminar.classList.add("btn", "btn-danger")
+    botonEliminar.innerHTML = '<i class="fas fa-trash"></i>'
+    botonEliminar.onclick = () =>{
+      eliminarProducto(detalle.codigo )
+    }
+    tdEliminar.appendChild(botonEliminar)
+    fila.appendChild(tdEliminar)
+
+    detalles.appendChild(fila) 
+  
   })
+  calcularstotal()
+}
+
+function eliminarProducto(codigo){
+   arrayProductos = arrayProductos.filter((detalle) =>{
+    if(codigo != detalle.codigo){
+      return detalle
+    }
+  })
+  armarPedido()
 }

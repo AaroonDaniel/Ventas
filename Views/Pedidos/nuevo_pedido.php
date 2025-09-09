@@ -50,7 +50,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-text"> Desc. Add.</span>
-                        <input type="number" class="form-control" id="descAdicional" name="descAdicional" min="0.00" value="0.00" step="0.01" style="text-align: right;">
+                        <input type="number" class="form-control" id="descAdicional" name="descAdicional" min="0.00" value="0.00" step="0.01" style="text-align: right;" onchange="calcularstotal()" onkeyup="calcularstotal()">
                     </div>
                     <div class="input-group">
                         <span class="input-group-text">Total:</span>
@@ -132,7 +132,7 @@
                     </tr>
                 </thead>
                 <tbody id="detalles">
-                    
+
                 </tbody>
             </table>
         </div>
