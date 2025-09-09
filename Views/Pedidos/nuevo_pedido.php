@@ -131,7 +131,9 @@
                         <th>S. Total</th>
                     </tr>
                 </thead>
-                <tbody id="detalles"></tbody>
+                <tbody id="detalles">
+                    
+                </tbody>
             </table>
         </div>
     </div>
