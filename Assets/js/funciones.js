@@ -1163,48 +1163,52 @@ function buscarProducto() {
           timer: 2000,
         });
       } else {
-        document.getElementById("nombre_producto").value = data["nombre_produto"]
-        document.getElementById("descripcion_corta").value = data["descripcion_corta"]
-        document.getElementById("cantidad").value = 1
-        document.getElementById("precio_venta").value = data["precio_venta"]
-        document.getElementById("descProducto").value = "0.00"
-        document.getElementById("sTotal").value = data["precio_venta"]
-        document.getElementById("unidad_siat").value = data["unidad_siat"]
-        document.getElementById("codigoProductoSin").value = data["codigoProductoSin"]
-
-
+        document.getElementById("nombre_producto").value =
+          data["nombre_produto"];
+        document.getElementById("descripcion_corta").value =
+          data["descripcion_corta"];
+        document.getElementById("cantidad").value = 1;
+        document.getElementById("precio_venta").value = data["precio_venta"];
+        document.getElementById("descProducto").value = "0.00";
+        document.getElementById("sTotal").value = data["precio_venta"];
+        document.getElementById("unidad_siat").value = data["unidad_siat"];
+        document.getElementById("codigoProductoSin").value =
+          data["codigoProductoSin"];
       }
-    }
+    },
   });
 }
 
 function calcularstotal() {
-  let totalPedido = 0
-  for(var i=0; i<arrayProductos.length; i++){
-    totalPedido += parseFloat(arrayProductos[i].sTotal)
+  let totalPedido = 0;
+  for (var i = 0; i < arrayProductos.length; i++) {
+    totalPedido += parseFloat(arrayProductos[i].sTotal);
   }
-  document.getElementById("subTotal").value= totalPedido.toFixed(2)
-  let descAdicional = document.getElementById("descAdicional").value
-  document.getElementById("total").value = (totalPedido - descAdicional).toFixed(2)
-  let cantidad = document.getElementById("cantidad").value
-  let precio_venta = document.getElementById("precio_venta").value
-  let descProducto = document.getElementById("descProducto").value
-  document.getElementById("sTotal").value = ((cantidad * precio_venta) - descProducto).toFixed(2)
+  document.getElementById("subTotal").value = totalPedido.toFixed(2);
+  let descAdicional = document.getElementById("descAdicional").value;
+  document.getElementById("total").value = (
+    totalPedido - descAdicional
+  ).toFixed(2);
+  let cantidad = document.getElementById("cantidad").value;
+  let precio_venta = document.getElementById("precio_venta").value;
+  let descProducto = document.getElementById("descProducto").value;
+  document.getElementById("sTotal").value = (
+    cantidad * precio_venta -
+    descProducto
+  ).toFixed(2);
 }
 
-
-var arrayProductos = []
-var detalles = document.getElementById("detalles")
+var arrayProductos = [];
+var detalles = document.getElementById("detalles");
 
 function cargarProductos() {
-  let codigo = document.getElementById("codigo").value
-  let codigoProductoSin = document.getElementById("codigoProductoSin").value
-  let nombre_producto = document.getElementById("nombre_producto").value
-  let precio_venta = document.getElementById("precio_venta").value
-  let cantidad = document.getElementById("cantidad").value
-  let descProducto = document.getElementById("descProducto").value
-  let sTotal = document.getElementById("sTotal").value
-
+  let codigo = document.getElementById("codigo").value;
+  let codigoProductoSin = document.getElementById("codigoProductoSin").value;
+  let nombre_producto = document.getElementById("nombre_producto").value;
+  let precio_venta = document.getElementById("precio_venta").value;
+  let cantidad = document.getElementById("cantidad").value;
+  let descProducto = document.getElementById("descProducto").value;
+  let sTotal = document.getElementById("sTotal").value;
 
   let detallesobs = {
     codigo: codigo,
@@ -1213,55 +1217,107 @@ function cargarProductos() {
     precio_venta: precio_venta,
     cantidad: cantidad,
     descProducto: descProducto,
-    sTotal: sTotal
-  }
-  arrayProductos.push(detallesobs)
-  armarPedido()
+    sTotal: sTotal,
+  };
+  arrayProductos.push(detallesobs);
+  armarPedido();
 
-
-  document.getElementById("codigo").value = ""
-  document.getElementById("nombre_producto").value = ""
-  document.getElementById("precio_venta").value = ""   
-  document.getElementById("cantidad").value = ""
-  document.getElementById("descProducto").value = ""
-  document.getElementById("sTotal").value = ""
-  document.getElementById("descripcion_corta").value=""
-  document.getElementById("codigoProductoSin").value = ""
-
+  document.getElementById("codigo").value = "";
+  document.getElementById("nombre_producto").value = "";
+  document.getElementById("precio_venta").value = "";
+  document.getElementById("cantidad").value = "";
+  document.getElementById("descProducto").value = "";
+  document.getElementById("sTotal").value = "";
+  document.getElementById("descripcion_corta").value = "";
+  document.getElementById("codigoProductoSin").value = "";
 }
 
 function armarPedido() {
-  detalles.innerHTML = ""
+  detalles.innerHTML = "";
   arrayProductos.forEach((detalle) => {
-    let fila = document.createElement("tr")
-    fila.innerHTML = '<td>' + detalle.codigo + '</td>' +
-      '<td>' + detalle.nombre_producto + '</td>' +
-      '<td>' + detalle.precio_venta + '</td>' +
-      '<td>' + detalle.cantidad + '</td>' +
-      '<td>' + detalle.descProducto + '</td>' +
-      '<td>' + detalle.sTotal + '</td>'
+    let fila = document.createElement("tr");
+    fila.innerHTML =
+      "<td>" +
+      detalle.codigo +
+      "</td>" +
+      "<td>" +
+      detalle.nombre_producto +
+      "</td>" +
+      "<td>" +
+      detalle.precio_venta +
+      "</td>" +
+      "<td>" +
+      detalle.cantidad +
+      "</td>" +
+      "<td>" +
+      detalle.descProducto +
+      "</td>" +
+      "<td>" +
+      detalle.sTotal +
+      "</td>";
 
-    let tdEliminar = document.createElement("td")
-    let botonEliminar = document.createElement("button")
-    botonEliminar.classList.add("btn", "btn-danger")
-    botonEliminar.innerHTML = '<i class="fas fa-trash"></i>'
-    botonEliminar.onclick = () =>{
-      eliminarProducto(detalle.codigo )
-    }
-    tdEliminar.appendChild(botonEliminar)
-    fila.appendChild(tdEliminar)
+    let tdEliminar = document.createElement("td");
+    let botonEliminar = document.createElement("button");
+    botonEliminar.classList.add("btn", "btn-danger");
+    botonEliminar.innerHTML = '<i class="fas fa-trash"></i>';
+    botonEliminar.onclick = () => {
+      eliminarProducto(detalle.codigo);
+    };
+    tdEliminar.appendChild(botonEliminar);
+    fila.appendChild(tdEliminar);
 
-    detalles.appendChild(fila) 
-  
-  })
-  calcularstotal()
+    detalles.appendChild(fila);
+  });
+  calcularstotal();
 }
 
-function eliminarProducto(codigo){
-   arrayProductos = arrayProductos.filter((detalle) =>{
-    if(codigo != detalle.codigo){
-      return detalle
+function eliminarProducto(codigo) {
+  arrayProductos = arrayProductos.filter((detalle) => {
+    if (codigo != detalle.codigo) {
+      return detalle;
+    }
+  });
+  armarPedido();
+}
+
+function verificarComunicacion() {
+  $.ajax({
+    type: "POST",
+    url: base_url + "Pedidos/verificarComunicacion",
+    cache: false,
+    dataType: "json",
+    success: function (data) {
+      console.log(data); // Debug
+      if (data.RespuestaComunicacion.transaccion === true) {
+        document.getElementById("comunicacionSiat").innerHTML =
+          data.RespuestaComunicacion.mensajesList.descripcion;
+        document.getElementById("comunicacionSiat").className =
+          "badge badge-success";
+      } else {
+        document.getElementById("comunicacionSiat").innerHTML =
+          data.RespuestaComunicacion.mensajesList.descripcion;
+        document.getElementById("comunicacionSiat").className =
+          "badge badge-danger";
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("AJAX error:", error);
+      document.getElementById("comunicacionSiat").innerHTML =
+        "Error de conexión";
+      document.getElementById("comunicacionSiat").className =
+        "badge badge-danger";
+    },
+  });
+}
+
+function cuis(){
+  $.ajax({
+    type: "POST",
+    url: base_url + "Pedidos/cuis",
+    cache: false,
+    dataType: "json",
+    success: function(data){
+      console.log(data)
     }
   })
-  armarPedido()
 }

@@ -2,6 +2,7 @@
 class Pedidos extends Controller{
     public function __construct()
     {
+        session_start();
         parent::__construct();
     }
 
@@ -32,6 +33,28 @@ class Pedidos extends Controller{
             $msg = "error";
             echo json_encode($msg);
         }
+    }
+
+    public function verificarComunicacion(){
+        require_once "Siat.php";
+        $siat = new Siat();
+        $res = $siat->verificarComunicacion();
+        echo json_encode($res);
+    }
+
+
+    public function cuis(){
+        require "Siat.php";
+        $siat = new Siat();
+        $res = $siat->cuis();
+        if($res->RespuestaCuis->mensajesList->codigo = 980){
+            $_SESSION['scuis'] = $res->respuestaCuis->codigo;
+            $_SESSION['sfechaVigenciaCuis'] = $res->RespuestaCuis->fechaVigencia;
+            echo $res->respuestaCuis->codigo;
+        }else{
+            echo "error al solicitar codigo CUIS";
+        }
+       
     }
 
 } 
