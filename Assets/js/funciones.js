@@ -1321,3 +1321,21 @@ function cuis(){
     }
   })
 }
+verificarComunicacion()
+cuis()
+
+function cudf(){
+  $.ajax({
+    type: "POST",
+    url: base_url + "Pedidos/cufd",
+    cache: false,
+    dataType: "json",
+    success: function(data){
+      if(data.RespuestaCufd.transaccion == true){
+        document.getElementById("cufd").innerHTML = "CUFD vigente " + data.RespuestaCufd.fechaVigencia
+      }else{
+        document.getElementById("cufd").innerHTML = "No existe CUFD vigencia"
+      }
+    }
+  })
+}

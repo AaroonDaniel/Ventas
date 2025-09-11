@@ -57,6 +57,13 @@ class Pedidos extends Controller{
        
     }
 
+    public function cufd(){
+        require "Siat.php";
+        $siat = new Siat();
+        $res = $siat->cufd();
+        echo json_encode($res);
+    }
+
 } 
 
 ?>

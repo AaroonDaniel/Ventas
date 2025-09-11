@@ -57,10 +57,9 @@
                         <input type="number" class="form-control" id="total" name="total" min="0.00" value="0.00" step="0.01" style="text-align: right;" readonly>
                     </div>
                     <div class="input-group">
-                        <span class="badge badge-secondary" id="comunicacionSiat">
-                            DESCONETADO
-                        </span>
+                        <span class="badge badge-secondary" id="comunicacionSiat">DESCONETADO</span>
                         <p><?php if(!isset($_SESSION['scuis'])) echo "CUIS inexistente"; else echo "CUIS: ".$_SESSION['scuis'];?></p>
+                        <span class="badge badge-secondary" id="cufd">No existe CUFD vigente</span>
                     </div>
                 </div>
             </div>
