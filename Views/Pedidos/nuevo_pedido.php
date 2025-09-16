@@ -58,8 +58,10 @@
                     </div>
                     <div class="input-group">
                         <span class="badge badge-secondary" id="comunicacionSiat">DESCONETADO</span>
-                        <p><?php if(!isset($_SESSION['scuis'])) echo "CUIS inexistente"; else echo "CUIS: ".$_SESSION['scuis'];?></p>
+                        <p><?php if (!isset($_SESSION['scuis'])) echo "CUIS inexistente";
+                            else echo "CUIS: " . $_SESSION['scuis']; ?></p>
                         <span class="badge badge-secondary" id="cufd">No existe CUFD vigente</span>
+                        <input type="hidden" id="cufdValor" name="cufdValor" value="<?=$_SESSION['scufd']?>">
                     </div>
                 </div>
             </div>
@@ -121,8 +123,13 @@
                 </div>
             </div>
         </div>
+        <div class="card-footer">
+            <button class="btn btn-success" type="button" onclick="emitirFactura()">Emitir factura</button>
 
+        </div>
     </div>
+
+
     <div class="card">
         <div class="card-body">
             <table class="table">
@@ -144,3 +151,4 @@
     </div>
 </div>
 <?php require_once "Views/Templates/footer.php"; ?>
+<script src="<? base_url ?>Assets/js/facturar.js"></script>
