@@ -151,4 +151,4 @@
     </div>
 </div>
 <?php require_once "Views/Templates/footer.php"; ?>
-<script src="<? base_url ?>Assets/js/facturar.js"></script>
+<script src="<?=base_url ?>Assets/js/facturar.js"></script>

@@ -55,15 +55,7 @@ class Pedidos extends Controller
             require "Siat.php";
             $siat = new Siat();
             $res = $siat->cuis();
-            if ($res->RespuestaCuis->mensajesList->codigo == 980) {
-                $_SESSION['scuis'] = $res->respuestaCuis->codigo;
-                $_SESSION['sfechaVigenciaCuis'] = $res->RespuestaCuis->fechaVigencia;
-                echo $res->respuestaCuis->codigo;
-            } else {
-                echo "error al solicitar codigo CUIS";
-            }
-        }else{
-            echo $_SESSION['scuis'];
+            echo json_encode($res);
         }
     }
 

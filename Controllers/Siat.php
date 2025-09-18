@@ -6,7 +6,7 @@ class Siat
         $wsdl = "https://pilotosiatservicios.impuestos.gob.bo/v2/FacturacionCodigos?wsdl";
         $opciones = array(
             'http' => array(
-                'header' => "apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiIzNTIxRDAyMjc1N0JENjBDODMwRSIsIm5pdCI6Ikg0c0lBQUFBQUFBQUFETTJOakkzTWJjME1EUUdBTFIzOFlFS0FBQUEiLCJpZCI6NTA1NzAxNywiZXhwIjoxNzU5MjUxMTIxLCJpYXQiOjE3NTc0NTEwOTEsIm5pdERlbGVnYWRvIjozMzI3NDc5MDEzLCJzdWJzaXN0ZW1hIjoiU0ZFIn0.29P8rjPVO-X0SVkThNpz9A0BJKmsCUGatZd_burI0JIeJn_9uSvxYY5vFfq--uyCjvVGvWRj9BPbUVEM9nfLWg",
+                'header' => "apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiI1MEY1RDM5Q0U1RUMwNUYzMjQ5NzA0REFFNThDMzciLCJuaXQiOiJINHNJQUFBQUFBQUFBRE0yTmpJM01iYzBNRFFHQUxSMzhZRUtBQUFBIiwiaWQiOjUwNTcwMTcsImV4cCI6MTc2MTkyNjQ5OSwiaWF0IjoxNzU4MjI1NjY5LCJuaXREZWxlZ2FkbyI6MTAwMzU3OTAyOCwic3Vic2lzdGVtYSI6IlNGRSJ9.uvLHm7Qia56He7hGx-ALWvVEd7zrCcEFM7nPNp7OiZGdDVIvI8u484DEmx7nbGOIp2sEm4y-EVUf12w9IgSN0Q",
                 'timeout' => 5
             )
         );
@@ -66,7 +66,7 @@ class Siat
 
         $opciones = array(
             'http' => array(
-                'header' => "apikey TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiIzNTIxRDAyMjc1N0JENjBDODMwRSIsIm5pdCI6Ikg0c0lBQUFBQUFBQUFETTJOakkzTWJjME1EUUdBTFIzOFlFS0FBQUEiLCJpZCI6NTA1NzAxNywiZXhwIjoxNzU5MjUxMTIxLCJpYXQiOjE3NTc0NTEwOTEsIm5pdERlbGVnYWRvIjozMzI3NDc5MDEzLCJzdWJzaXN0ZW1hIjoiU0ZFIn0.29P8rjPVO-X0SVkThNpz9A0BJKmsCUGatZd_burI0JIeJn_9uSvxYY5vFfq--uyCjvVGvWRj9BPbUVEM9nfLWg",
+                'header' => "apikey TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiI1MEY1RDM5Q0U1RUMwNUYzMjQ5NzA0REFFNThDMzciLCJuaXQiOiJINHNJQUFBQUFBQUFBRE0yTmpJM01iYzBNRFFHQUxSMzhZRUtBQUFBIiwiaWQiOjUwNTcwMTcsImV4cCI6MTc2MTkyNjQ5OSwiaWF0IjoxNzU4MjI1NjY5LCJuaXREZWxlZ2FkbyI6MTAwMzU3OTAyOCwic3Vic2lzdGVtYSI6IlNGRSJ9.uvLHm7Qia56He7hGx-ALWvVEd7zrCcEFM7nPNp7OiZGdDVIvI8u484DEmx7nbGOIp2sEm4y-EVUf12w9IgSN0Q",
                 'timeout' => 5
             )
         );
@@ -94,7 +94,7 @@ class Siat
         $codigoAmbiente = 2;
         $codigoModalidad = 2;
         $codigoPuntoVenta = 0;
-        $codigoSistema = "3521D02656B1D78FD90E";
+        $codigoSistema = "3521D022757BD60C830E";
         $codigoSucursal = 0;
         $cuis = $_SESSION['scuis'];
         $nit = "3327479013";
@@ -113,7 +113,7 @@ class Siat
 
         $opciones = array(
             'http' => array(
-                'header' => ' apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiIzNTIxRDAyMjc1N0JENjBDODMwRSIsIm5pdCI6Ikg0c0lBQUFBQUFBQUFETTJOakkzTWJjME1EUUdBTFIzOFlFS0FBQUEiLCJpZCI6NTA1NzAxNywiZXhwIjoxNzU5MjUxMTIxLCJpYXQiOjE3NTc0NTEwOTEsIm5pdERlbGVnYWRvIjozMzI3NDc5MDEzLCJzdWJzaXN0ZW1hIjoiU0ZFIn0.29P8rjPVO-X0SVkThNpz9A0BJKmsCUGatZd_burI0JIeJn_9uSvxYY5vFfq--uyCjvVGvWRj9BPbUVEM9nfLWg',
+                'header' => ' apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiI1MEY1RDM5Q0U1RUMwNUYzMjQ5NzA0REFFNThDMzciLCJuaXQiOiJINHNJQUFBQUFBQUFBRE0yTmpJM01iYzBNRFFHQUxSMzhZRUtBQUFBIiwiaWQiOjUwNTcwMTcsImV4cCI6MTc2MTkyNjQ5OSwiaWF0IjoxNzU4MjI1NjY5LCJuaXREZWxlZ2FkbyI6MTAwMzU3OTAyOCwic3Vic2lzdGVtYSI6IlNGRSJ9.uvLHm7Qia56He7hGx-ALWvVEd7zrCcEFM7nPNp7OiZGdDVIvI8u484DEmx7nbGOIp2sEm4y-EVUf12w9IgSN0Q',
                 'timeout' => 5
             )
         );
@@ -156,7 +156,7 @@ class Siat
         );
         $opciones = array(
             'http' => array(
-                'header' => ' apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiIzNTIxRDAyMjc1N0JENjBDODMwRSIsIm5pdCI6Ikg0c0lBQUFBQUFBQUFETTJOakkzTWJjME1EUUdBTFIzOFlFS0FBQUEiLCJpZCI6NTA1NzAxNywiZXhwIjoxNzU5MjUxMTIxLCJpYXQiOjE3NTc0NTEwOTEsIm5pdERlbGVnYWRvIjozMzI3NDc5MDEzLCJzdWJzaXN0ZW1hIjoiU0ZFIn0.29P8rjPVO-X0SVkThNpz9A0BJKmsCUGatZd_burI0JIeJn_9uSvxYY5vFfq--uyCjvVGvWRj9BPbUVEM9nfLWg',
+                'header' => ' apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiI1MEY1RDM5Q0U1RUMwNUYzMjQ5NzA0REFFNThDMzciLCJuaXQiOiJINHNJQUFBQUFBQUFBRE0yTmpJM01iYzBNRFFHQUxSMzhZRUtBQUFBIiwiaWQiOjUwNTcwMTcsImV4cCI6MTc2MTkyNjQ5OSwiaWF0IjoxNzU4MjI1NjY5LCJuaXREZWxlZ2FkbyI6MTAwMzU3OTAyOCwic3Vic2lzdGVtYSI6IlNGRSJ9.uvLHm7Qia56He7hGx-ALWvVEd7zrCcEFM7nPNp7OiZGdDVIvI8u484DEmx7nbGOIp2sEm4y-EVUf12w9IgSN0Q',
                 'timeout' => 5
             )
         );
@@ -198,7 +198,7 @@ class Siat
         );
         $opciones = array(
             'http' => array(
-                'header' => ' apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiIzNTIxRDAyMjc1N0JENjBDODMwRSIsIm5pdCI6Ikg0c0lBQUFBQUFBQUFETTJOakkzTWJjME1EUUdBTFIzOFlFS0FBQUEiLCJpZCI6NTA1NzAxNywiZXhwIjoxNzU5MjUxMTIxLCJpYXQiOjE3NTc0NTEwOTEsIm5pdERlbGVnYWRvIjozMzI3NDc5MDEzLCJzdWJzaXN0ZW1hIjoiU0ZFIn0.29P8rjPVO-X0SVkThNpz9A0BJKmsCUGatZd_burI0JIeJn_9uSvxYY5vFfq--uyCjvVGvWRj9BPbUVEM9nfLWg',
+                'header' => ' apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiI1MEY1RDM5Q0U1RUMwNUYzMjQ5NzA0REFFNThDMzciLCJuaXQiOiJINHNJQUFBQUFBQUFBRE0yTmpJM01iYzBNRFFHQUxSMzhZRUtBQUFBIiwiaWQiOjUwNTcwMTcsImV4cCI6MTc2MTkyNjQ5OSwiaWF0IjoxNzU4MjI1NjY5LCJuaXREZWxlZ2FkbyI6MTAwMzU3OTAyOCwic3Vic2lzdGVtYSI6IlNGRSJ9.uvLHm7Qia56He7hGx-ALWvVEd7zrCcEFM7nPNp7OiZGdDVIvI8u484DEmx7nbGOIp2sEm4y-EVUf12w9IgSN0Q',
                 'timeout' => 5
             )
         );
@@ -240,7 +240,7 @@ class Siat
         );
         $opciones = array(
             'http' => array(
-                'header' => ' apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiIzNTIxRDAyMjc1N0JENjBDODMwRSIsIm5pdCI6Ikg0c0lBQUFBQUFBQUFETTJOakkzTWJjME1EUUdBTFIzOFlFS0FBQUEiLCJpZCI6NTA1NzAxNywiZXhwIjoxNzU5MjUxMTIxLCJpYXQiOjE3NTc0NTEwOTEsIm5pdERlbGVnYWRvIjozMzI3NDc5MDEzLCJzdWJzaXN0ZW1hIjoiU0ZFIn0.29P8rjPVO-X0SVkThNpz9A0BJKmsCUGatZd_burI0JIeJn_9uSvxYY5vFfq--uyCjvVGvWRj9BPbUVEM9nfLWg',
+                'header' => ' apikey: TokenApi eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYXJ5LnJhbWlyZXouY29kaWdvQGdtYWlsLmNvbSIsImNvZGlnb1Npc3RlbWEiOiI1MEY1RDM5Q0U1RUMwNUYzMjQ5NzA0REFFNThDMzciLCJuaXQiOiJINHNJQUFBQUFBQUFBRE0yTmpJM01iYzBNRFFHQUxSMzhZRUtBQUFBIiwiaWQiOjUwNTcwMTcsImV4cCI6MTc2MTkyNjQ5OSwiaWF0IjoxNzU4MjI1NjY5LCJuaXREZWxlZ2FkbyI6MTAwMzU3OTAyOCwic3Vic2lzdGVtYSI6IlNGRSJ9.uvLHm7Qia56He7hGx-ALWvVEd7zrCcEFM7nPNp7OiZGdDVIvI8u484DEmx7nbGOIp2sEm4y-EVUf12w9IgSN0Q',
                 'timeout' => 5
             )
         );
