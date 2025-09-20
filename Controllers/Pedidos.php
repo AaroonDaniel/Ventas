@@ -55,7 +55,13 @@ class Pedidos extends Controller
             require "Siat.php";
             $siat = new Siat();
             $res = $siat->cuis();
-            echo json_encode($res);
+            if ($res->RespuestaCuis->mensajesList->codigo == 980) {
+                $_SESSION['scuis'] = $res->RespuestaCuis->codigo;
+                $_SESSION['sfechaVigenciaCuis'] = $res->RespuestaCuis->fechaVigencia;
+                echo $res->RespuestaCuis->codigo;
+            } else {
+                echo "error al solicitar el codigo cuis";
+            }
         }
     }
 
@@ -87,33 +93,40 @@ class Pedidos extends Controller
                     $res = false;
                 }
             } else {
-                $res['RespuestaCufd']['transaccion'] = true;
-                $res['RespuestaCufd']['codigo'] = $_SESSION['scufd'];
-                $res['RespuestaCufd']['fechaVigencia'] = $_SESSION['sfechaVigenciaCufd'];
+                $res = [
+                    'RespuestaCufd' => [
+                        'transaccion' => true,
+                        'codigo' => $_SESSION['scufd'],
+                        'codigoControl' => $_SESSION['scodigoControl'],
+                        'fechaVigencia' => $_SESSION['sfechaVigenciaCufd']
+                    ]
+                ];
             }
-            echo json_encode($res);
         }
+        echo json_encode($res);
     }
 
-    public function sincronizarActividades(){
+    public function sincronizarActividades()
+    {
         require "Siat.php";
         $siat = new Siat();
         $res = $siat->sincronizarActividades();
         echo json_encode($res);
     }
 
-    public function sincronizarListaProductosServicios(){
+    public function sincronizarListaProductosServicios()
+    {
         require "Siat.php";
         $siat = new Siat();
         $res = $siat->sincronizarListaProductosServicios();
         echo json_encode($res);
     }
 
-    public function sincronizarParametricaUnidadMedida(){
+    public function sincronizarParametricaUnidadMedida()
+    {
         require "Siat.php";
         $siat = new Siat();
         $res = $siat->sincronizarParametricaUnidadMedida();
         echo json_encode($res);
     }
-
 }

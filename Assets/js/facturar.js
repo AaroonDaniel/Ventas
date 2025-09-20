@@ -170,7 +170,6 @@ function cuis() {
         dataType: "json",
         success: function (data) {
             console.log(data)
-
         }
     })
 }
@@ -178,24 +177,21 @@ function cuis() {
 verificarComunicacion()
 cuis()
 
-function cufd() {
+function cufd(){
     $.ajax({
         type: "POST",
         url: base_url + "Pedidos/cufd",
         cache: false,
         dataType: "json",
-        success: function (data) {
-            //console.log(data)
-            if (data.RespuestaCufd.transaccion == true) {
-                document.getElementById("cufd").innerHTML = "CUFD vigente " + data.RespuestaCufd.fechaVigencia.substring(0, 16)
-            } else {
+        success: function(data){
+            if(data.RespuestaCufd.transaccion == true){
+                document.getElementById("cufd").innerHTML = "CUFD vigente " + data.RespuestaCufd.fechaVigencia.substring(0,16)
+            }else{
                 document.getElementById("cufd").innerHTML = "No existe CUFD vigente"
             }
-
         }
     })
 }
-
 cufd()
 
 function emitirFactura() {
