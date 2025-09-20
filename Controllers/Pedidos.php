@@ -62,6 +62,8 @@ class Pedidos extends Controller
             } else {
                 echo "error al solicitar el codigo cuis";
             }
+        }else{
+            echo $_SESSION['scuis'];
         }
     }
 
@@ -93,19 +95,13 @@ class Pedidos extends Controller
                     $res = false;
                 }
             } else {
-                $res = [
-                    'RespuestaCufd' => [
-                        'transaccion' => true,
-                        'codigo' => $_SESSION['scufd'],
-                        'codigoControl' => $_SESSION['scodigoControl'],
-                        'fechaVigencia' => $_SESSION['sfechaVigenciaCufd']
-                    ]
-                ];
+                $res['RespuestaCufd']['transaccion'] = true;
+                $res['RespuestaCufd']['codigo'] = $_SESSION['scufd'];
+                $res['RespuestaCufd']['fechaVigencia'] = $_SESSION['sfechaVigenciaCufd'];
             }
         }
         echo json_encode($res);
     }
-
     public function sincronizarActividades()
     {
         require "Siat.php";
