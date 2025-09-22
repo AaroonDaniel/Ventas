@@ -125,4 +125,12 @@ class Pedidos extends Controller
         $res = $siat->sincronizarParametricaUnidadMedida();
         echo json_encode($res);
     }
+
+    public function sincronizarListaLeyendasFactura()
+    {
+        require "Siat.php";
+        $siat = new Siat();
+        $res = $siat->sincronizarListaLeyendasFactura();
+        echo json_encode($res);
+    }
 }

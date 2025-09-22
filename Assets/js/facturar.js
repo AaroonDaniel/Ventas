@@ -208,10 +208,57 @@ function emitirFactura(){
     let codigoCliente = document.getElementById("documentoid").value
     let codigoMetodoPago = 1
     let numeroTarjeta = null
-    
+    let montoTotal = document.getElementById("total").value
+    let montoGiftCard = 0
+    let descuentoAdicional = document.getElementById("descAdicional").value
+    let codigoExcepcion = null
+    let cafc = null
+    let codigoMoneda = 1
+    let tipoCambio = 1
+    let leyenda = "Ley N° 453: Puedes acceder a la reclamación cuando tus derechos han sido vulnerados.";
+    let usuario = document.getElementById("nickuser").value
+    let codigoDocumentoSector = 1
+
+    var factura = []
+    factura.push({
+        cabecara: {
+            nitEmisor : "3327479013",
+            razonSocialEmisor: "FERRETERIA EL FERRETERO",
+            nunicipio: "LA PAZ",
+            telefono: "72578583",
+            numeroFactura: numeroFactura,
+            cuf: cuf,
+            cufd: cufd,
+            codigoSucursal: 0,
+            direccion: "Calle 4 Ceja El Alto",
+            codigoPuntoVenta: 0,
+            fechaEmision: fechaEmision,
+            nombreRazonSocial: nombreRazonSocial,
+            codigoTipoDocumentoIdentidad: codigoTipoDocumentoIdentidad,
+            numeroDocumento: numeroDocumento,
+            complemento: complemento,
+            codigoCliente: codigoCliente,
+            codigoMetodoPago: codigoMetodoPago,
+            numeroTarjeta: numeroTarjeta,
+            montoTotal: montoTotal,
+            montoTotalSujetoIva: montoTotal,
+            montoGiftCard: montoGiftCard,
+            descuentoAdicional: descuentoAdicional,
+            codigoExcepcion: codigoExcepcion,
+            cafc: cafc,
+            codigoMoneda: codigoMoneda,
+            tipoCambio: tipoCambio,
+            montoTotalMoneda: montoTotal,
+            leyenda: leyenda,
+            usuario: usuario,
+            codigoDocumentoSector: codigoDocumentoSector
+
+        }
+    })
+
 
     //2025-09-22T20:26:31.275Z
     //2025-09-22T16:30:09.379Z
     //2025-09-22T16:33:15.587
-    console.log(fechaEmision)
+    //console.log(fechaEmision)
 }

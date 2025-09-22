@@ -3,6 +3,7 @@ class Usuarios extends Controller
 {
     public function __construct()
     {
+        session_start();
         parent::__construct();
     }
     public function index()
@@ -21,6 +22,9 @@ class Usuarios extends Controller
 
             $data = $this->model->getUsuario($nick, md5($clave));
             if ($data) {
+                $_SESSION['id_usuario'] = $data['id_usuario'];
+                $_SESSION['nick'] = $data['nick'];
+                $_SESSION['nombre'] = $data['nombre'];
                 $msg = "ok";
             } else {
                 $msg = "Usuario o clave incorrecta";

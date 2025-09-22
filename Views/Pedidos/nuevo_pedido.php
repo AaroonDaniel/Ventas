@@ -9,7 +9,7 @@
                 <div class="form-group col-md-3">
                     <label for="nrofactura">Nro. Factura</label>
                     <input type="number" id="nrofactura" name="nrofactura" class="form-control">
-
+                    <input type="hidden" id="nickuser" name="nickuser" value="<?=$_SESSION['nick']?>">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="actEconomica">Act. Economica</label>
