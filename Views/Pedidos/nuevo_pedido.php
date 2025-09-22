@@ -8,12 +8,12 @@
             <div class="form-group row col-md-9">
                 <div class="form-group col-md-3">
                     <label for="nrofactura">Nro. Factura</label>
-                    <input type="number" id="nrofactura" name="nroFactura" class="form-control">
+                    <input type="number" id="nrofactura" name="nrofactura" class="form-control">
 
                 </div>
                 <div class="form-group col-md-3">
                     <label for="actEconomica">Act. Economica</label>
-                    <input type="number" id="actEconomica" name="actEconomica" class="form-control" value="600524" readonly>
+                    <input type="number" id="actEconomica" name="actEconomica" class="form-control" value="620000" readonly>
 
                 </div>
                 <div class="form-group col-md-3">
@@ -33,6 +33,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="razon_social">Razon social</label>
+                    <input type="hidden" id="complementoid" name="complementoid">
                     <input type="text" id="razon_social" name="razon_social" class="form-control" readonly>
 
                 </div>
@@ -69,6 +70,7 @@
                             ?>
                         </p>
                         <span class="badge badge-secondary" id="cufd">No existe CUFD vigente</span>
+                        <input type="hidden" id="cufdValor" name="cufdValor" value="<?=$_SESSION['scufd']?>">
                     </div>
                 </div>
             </div>
@@ -136,7 +138,6 @@
         </div>
     </div>
 
-
     <div class="card">
         <div class="card-body">
             <table class="table">
@@ -158,4 +159,4 @@
     </div>
 </div>
 <?php require_once "Views/Templates/footer.php"; ?>
-<script src="<?= base_url ?>Assets/js/facturar.js"></script>
+<script src="<?=base_url ?>Assets/js/facturar.js"></script>

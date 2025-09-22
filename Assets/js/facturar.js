@@ -194,101 +194,24 @@ function cufd(){
 }
 cufd()
 
-function emitirFactura() {
-    let id_cliente = document.getElementById("id_cliente").value
+
+function emitirFactura(){
     let numeroFactura = document.getElementById("nrofactura").value
     let cuf = "123456"
     let cufd = document.getElementById("cufdValor").value
-    var diferencia = new Date().getTimezoneOffset() * 60000
-    let fechaEmision = new Date(Date.now() - diferencia).toISOString().slice(0, -1)
+    var diferencia  = new Date().getTimezoneOffset() * 60000
+    let fechaEmision = new Date(Date.now()-diferencia).toISOString().slice(0, -1)
     let nombreRazonSocial = document.getElementById("razon_social").value
-    let codigoTipoDocumentoIdentidad = document.getElementById("tipoDocumento").value
+    let codigoTipoDocumentoIdentidad = document.getElementById("tipoDocumento")
     let numeroDocumento = document.getElementById("documentoid").value
-    let complemento = document.getElementById("complementoid").value
+    let complementoid = document.getElementById("complementoid").value
     let codigoCliente = document.getElementById("documentoid").value
     let codigoMetodoPago = 1
     let numeroTarjeta = null
-    let montoTotal = document.getElementById("total").value
-    let montoGiftCard = 0
-    let descuentoAdicional = document.getElementById("descAdicional").value
-    let codigoExcepcion = 0
-    let cafc = null
-    let codigoMoneda = 1
-    let tipoCambio = 1
-    let leyenda = "Ley N° 453: El proveedor de servicios debe habilitar medios e instrumentos para efectuar consultas y reclamaciones.";
-    let usuario = document.getElementById("nickuser").value
-    let codigoDocumentoSector = 1
+    
 
-    var factura = []
-    factura.push({
-        cabecera: {
-            nitEmisor: "4247012018",
-            razonSocialEmisor: "INDEX INGENIERIA",
-            municipio: "LA PAZ",
-            telefono: "71536202",
-            numeroFactura: numeroFactura,
-            cuf: cuf,
-            cufd: cufd,
-            codigoSucursal: 0,
-            direccion: "Av. 20 de Octubre 1956",
-            codigoPuntoVenta: 0,
-            fechaEmision: fechaEmision,
-            nombreRazonSocial: nombreRazonSocial,
-            codigoTipoDocumentoIdentidad: codigoTipoDocumentoIdentidad,
-            numeroDocumento: numeroDocumento,
-            complemento: complemento,
-            codigoCliente: codigoCliente,
-            codigoMetodoPago: codigoMetodoPago,
-            numeroTarjeta: numeroTarjeta,
-            montoTotal: montoTotal,
-            montoTotalSujetoIva: montoTotal,
-            codigoMoneda: codigoMoneda,
-            tipoCambio: tipoCambio,
-            montoTotalMoneda: montoTotal,
-            montoGiftCard: montoGiftCard,
-            descuentoAdicional: descuentoAdicional,
-            codigoExcepcion: codigoExcepcion,
-            cafc: cafc,
-            leyenda: leyenda,
-            usuario: usuario,
-            codigoDocumentoSector: codigoDocumentoSector
-        }
-    })
-
-    arrayProductos.forEach(function (prod) {
-        factura.push({
-            detalle: prod
-        })
-    })
-
-    var datos = { factura }
-    $.ajax({
-        type: "POST",
-        url: base_url + "Pedidos/emitirFactura",
-        data: {
-            factura: datos,
-            id_cliente: id_cliente
-        },
-        dataType: "json",
-        success: function (data) {
-            if (data.RespuestaServicioFacturacion.transaccion == true) {
-                Swal.fire({
-                    title: data.RespuestaServicioFacturacion.codigoDescripcion,
-                    text: "Código recepción " + data.RespuestaServicioFacturacion.codigoRecepcion,
-                    icon: "success",
-                    timer: 2000,
-                    showConfirmButton: false
-                })
-                setTimeout(function(){
-                    window.location.href = base_url + "Pedidos"
-                },2000)
-            } else {
-                Swal.fire({
-                    title: data.RespuestaServicioFacturacion.codigoDescripcion,
-                    text: data.RespuestaServicioFacturacion.mensajesList.descripcion,
-                    icon: "error"
-                })
-            }
-        }
-    })
+    //2025-09-22T20:26:31.275Z
+    //2025-09-22T16:30:09.379Z
+    //2025-09-22T16:33:15.587
+    console.log(fechaEmision)
 }
