@@ -133,4 +133,27 @@ class Pedidos extends Controller
         $res = $siat->sincronizarListaLeyendasFactura();
         echo json_encode($res);
     }
+
+    public function emitirFactura(){
+        $datos = $_POST['factura'];
+        $valores = $datos['factura'][0]['cabecera'];
+        $nitEmisor = $valores['nitEmisor'];
+        $nitEmisor = str_pad($nitEmisor, 13, "0", STR_PAD_LEFT);
+        $fechaEmision = $valores['fechaEmision'];
+        $fechafinal = str_replace("T", "", $fechaEmision);
+        $fechafinal = str_replace("-", "", $fechafinal);
+        $fechafinal = str_replace(":", "", $fechafinal);
+        $fechafinal = str_replace(".", "", $fechafinal);
+        //20250923173220568
+        $sucursal = 0;
+        $sucursal = str_pad($sucursal, 4, "0", STR_PAD_LEFT);
+        $modalidad = 2;
+        $tipoEmision = 1;
+        $tipoFactura = 1;
+        $tipoDocSector = 1;
+        $numeroFactura = $valores['numeroFactura'];
+        $puntoVenta = 0;
+
+        echo json_encode($sucursal); 
+    }
 }

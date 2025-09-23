@@ -15,7 +15,7 @@ function buscarCliente() {
                     timer: 2000
                 })
             } else {
-                document.getElementById("id_cliente").value = data["id_cliente"]
+                document.getElementById("documentoid").value = data["documentoid"]
                 document.getElementById("complementoid").value = data["complementoid"]
                 document.getElementById("razon_social").value = data["razon_social"]
                 document.getElementById("cliente_email").value = data["cliente_email"]
@@ -202,9 +202,9 @@ function emitirFactura(){
     var diferencia  = new Date().getTimezoneOffset() * 60000
     let fechaEmision = new Date(Date.now()-diferencia).toISOString().slice(0, -1)
     let nombreRazonSocial = document.getElementById("razon_social").value
-    let codigoTipoDocumentoIdentidad = document.getElementById("tipoDocumento")
+    let codigoTipoDocumentoIdentidad = document.getElementById("tipoDocumento").value
     let numeroDocumento = document.getElementById("documentoid").value
-    let complementoid = document.getElementById("complementoid").value
+    let complemento = document.getElementById("complementoid").value
     let codigoCliente = document.getElementById("documentoid").value
     let codigoMetodoPago = 1
     let numeroTarjeta = null
@@ -221,7 +221,7 @@ function emitirFactura(){
 
     var factura = []
     factura.push({
-        cabecara: {
+        cabecera: {
             nitEmisor : "3327479013",
             razonSocialEmisor: "FERRETERIA EL FERRETERO",
             nunicipio: "LA PAZ",
@@ -256,9 +256,22 @@ function emitirFactura(){
         }
     })
 
+    arrayProductos.forEach(function(prod){
+        factura.push({
+            detalle: prod
+        })
+    })                   
+    
+    //console.log(factura)
 
-    //2025-09-22T20:26:31.275Z
-    //2025-09-22T16:30:09.379Z
-    //2025-09-22T16:33:15.587
-    //console.log(fechaEmision)
+    var datos = {factura}
+    $.ajax({
+        type: "POST",
+        url: base_url + "Pedidos/emitirFactura",
+        data: {factura: datos},
+        dataType: "json",
+        success: function(data){
+            console.log(data)                                           
+        }
+    })
 }
