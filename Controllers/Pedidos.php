@@ -62,7 +62,7 @@ class Pedidos extends Controller
             } else {
                 echo "error al solicitar el codigo cuis";
             }
-        }else{
+        } else {
             echo $_SESSION['scuis'];
         }
     }
@@ -134,7 +134,8 @@ class Pedidos extends Controller
         echo json_encode($res);
     }
 
-    public function emitirFactura(){
+    public function emitirFactura()
+    {
         $datos = $_POST['factura'];
         $valores = $datos['factura'][0]['cabecera'];
         $nitEmisor = $valores['nitEmisor'];
@@ -151,9 +152,96 @@ class Pedidos extends Controller
         $tipoEmision = 1;
         $tipoFactura = 1;
         $tipoDocSector = 1;
+        $tipoDocSector = str_pad($tipoDocSector, 2, "0", STR_PAD_LEFT);
         $numeroFactura = $valores['numeroFactura'];
+        $numeroFactura = str_pad($numeroFactura, 10, "0", STR_PAD_LEFT);
         $puntoVenta = 0;
+        $puntoVenta = str_pad($puntoVenta, 4, "0", STR_PAD_LEFT);
+        $cadena = $nitEmisor . $fechafinal . $sucursal . $modalidad . $tipoEmision . $tipoFactura . $tipoDocSector . $numeroFactura . $puntoVenta;
+        $modulo11 = $this->obtenerModulo11($cadena);
+        $cadena .= $modulo11;
+        $base16 = $this->base16($cadena);
+        $cuf = $base16 . $_SESSION['scodigoControl'];
+        $datos['factura'][0]['cabecera']['cuf'] = $cuf;
+        $temporal = $datos['factura'];
+        $xml_temporal = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <facturaComputarizadaCompraVenta 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="facturaComputarizadaCompraVenta.xsd">
+        </facturaComputarizadaCompraVenta>');
 
-        echo json_encode($sucursal); 
+        $this->formato_xml($temporal, $xml_temporal);
+        $xml_temporal->asXML("docs/facturas.xml" . $cuf . ".xml");
+        //E3ACE3F0A8D13E961CCCEAE0BB70452894D18DA7C62D31E474BB12F74
+    }
+
+    public function calculaDigitoMod11(string $cadena, int $numDig, int $limMult, bool $x10): string
+    {
+        if (!$x10) {
+            $numDig = 1;
+        }
+        for ($n = 1; $n <= $numDig; $n++) {
+            $suma = 0;
+            $mult = 2;
+            for ($i = strlen($cadena) - 1; $i >= 0; $i--) {
+                $suma += ($mult * substr($cadena, $i, $i + 1));
+                if (++$mult > $limMult) {
+                    $mult = 2;
+                }
+            }
+            if ($x10) {
+                $dig = (($suma * 10) % 11) % 10;
+            } else {
+                $dig = $suma % 11;
+            }
+            if ($dig == 10) {
+                $cadena .= "1";
+            } elseif ($dig == 11) {
+                $cadena .= "0";
+            } elseif ($dig < 10) {
+                $cadena .= $dig;
+            }
+        }
+        return substr($cadena, strlen($cadena) - $numDig, strlen($cadena));
+    }
+
+    public function obtenerModulo11(String $cadena): string
+    {
+        $vDigito = $this->calculaDigitoMod11($cadena, 1, 9, false);
+        return $vDigito;
+    }
+
+    public function base16($number): string
+    {
+        $hexvalores = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
+        $hexval = '';
+        while ($number != '0') {
+            $hexval = $hexvalores[round(bcmod($number, '16'))] . $hexval;
+            $number = bcdiv($number, '16', 0);
+        }
+        return $hexval;
+    }
+
+    public function formato_xml($temporal, &$xml_temporal)
+    {
+        $xsi = "http://www.w3.org/2001/XMLSchema-instance";
+
+        foreach ($temporal as $llave => $valor) {
+            if (is_array($valor)) {
+                if (!is_numeric($llave)) {
+                    $subnodo = $xml_temporal->addChild($llave);
+                    $this->formato_xml($valor, $subnodo);
+                } else {
+                    $this->formato_xml($valor, $xml_temporal);
+                }
+            } else {
+                if ($valor === null || $valor === '') {
+                    $hijo = $xml_temporal->addChild($llave);
+                    $hijo->addAttribute('xsi:nil', 'true', $xsi);
+                } else {
+                    $xml_temporal->addChild($llave, htmlspecialchars($valor));
+                }
+            }
+        }
     }
 }
