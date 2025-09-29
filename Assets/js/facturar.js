@@ -224,7 +224,7 @@ function emitirFactura(){
         cabecera: {
             nitEmisor : "3327479013",
             razonSocialEmisor: "FERRETERIA EL FERRETERO",
-            nunicipio: "LA PAZ",
+            municipio: "LA PAZ",
             telefono: "72578583",
             numeroFactura: numeroFactura,
             cuf: cuf,

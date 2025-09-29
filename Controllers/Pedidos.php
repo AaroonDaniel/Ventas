@@ -202,7 +202,7 @@ class Pedidos extends Controller
             $suma = 0;
             $mult = 2;
             for ($i = strlen($cadena) - 1; $i >= 0; $i--) {
-                $suma += ($mult * substr($cadena, $i, $i + 1));
+                $suma += ($mult * substr($cadena, $i, 1));
                 if (++$mult > $limMult) {
                     $mult = 2;
                 }
