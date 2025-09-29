@@ -171,7 +171,25 @@ class Pedidos extends Controller
         </facturaComputarizadaCompraVenta>');
 
         $this->formato_xml($temporal, $xml_temporal);
-        $xml_temporal->asXML("docs/facturas.xml" . $cuf . ".xml");
+        $xml_temporal->asXML("docs/facturas.xml");
+        $archivoxml = "";
+        $file = fopen("docs/facturas.xml", "r");
+        while(!feof($file)) {
+            $linea = fgets($file);
+            $archivoxml .= $linea;
+        }
+        fclose($file);
+        $gzip = gzencode($archivoxml, 9);
+        $file = fopen("docs/facturas.xml.gz", "w");
+        fwrite($file, $gzip);
+        fclose($file);
+        $archivo = $gzip;
+        $hashArchivo = hash('sha256', $archivoxml);
+        require "Siat.php";
+        $siat = new Siat();
+        $resFactura=$siat->recepcionFactura($archivo, $fechaEmision, $hashArchivo);
+        echo json_encode($resFactura);
+
         //E3ACE3F0A8D13E961CCCEAE0BB70452894D18DA7C62D31E474BB12F74
     }
 

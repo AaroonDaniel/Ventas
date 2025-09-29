@@ -242,13 +242,14 @@ function emitirFactura(){
             numeroTarjeta: numeroTarjeta,
             montoTotal: montoTotal,
             montoTotalSujetoIva: montoTotal,
+            codigoMoneda: codigoMoneda,
+            tipoCambio: tipoCambio,
+            montoTotalMoneda: montoTotal,
             montoGiftCard: montoGiftCard,
             descuentoAdicional: descuentoAdicional,
             codigoExcepcion: codigoExcepcion,
             cafc: cafc,
-            codigoMoneda: codigoMoneda,
-            tipoCambio: tipoCambio,
-            montoTotalMoneda: montoTotal,
+            
             leyenda: leyenda,
             usuario: usuario,
             codigoDocumentoSector: codigoDocumentoSector
