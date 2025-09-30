@@ -174,7 +174,7 @@ class Pedidos extends Controller
         $xml_temporal->asXML("docs/facturas.xml");
         $archivoxml = "";
         $file = fopen("docs/facturas.xml", "r");
-        while(!feof($file)) {
+        while (!feof($file)) {
             $linea = fgets($file);
             $archivoxml .= $linea;
         }
@@ -187,7 +187,7 @@ class Pedidos extends Controller
         $hashArchivo = hash('sha256', $archivoxml);
         require "Siat.php";
         $siat = new Siat();
-        $resFactura=$siat->recepcionFactura($archivo, $fechaEmision, $hashArchivo);
+        $resFactura = $siat->recepcionFactura($archivo, $fechaEmision, $hashArchivo);
         echo json_encode($resFactura);
 
         //E3ACE3F0A8D13E961CCCEAE0BB70452894D18DA7C62D31E474BB12F74
