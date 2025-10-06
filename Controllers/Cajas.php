@@ -3,11 +3,12 @@ class Cajas extends Controller
 {
     public function __construct()
     {
+        session_start();
         parent::__construct();
     }
+
     public function index()
     {
-
         $this->views->getView($this, "index");
     }
 
@@ -18,11 +19,11 @@ class Cajas extends Controller
             if ($data[$i]['caja_estado'] == 1) {
                 $data[$i]['caja_estado'] = '<span class="badge badge-success">Activo</span>';
                 $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCaja(' . $data[$i]['id_caja'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-danger" type="button" onclick="btnInactivarCaja(' . $data[$i]['id_caja'] . ')" title="Inactivar"><i class="fas fa-trash-alt" ></i></button>';
+            <button class="btn btn-danger" type="button" onclick="btnInactivarCaja(' . $data[$i]['id_caja'] . ')" title="Inactivar"><i class="fas fa-trash-alt"></i></button>';
             } else {
                 $data[$i]['caja_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
-                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCaja(' . $data[$i]['id_caja'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-success" type="button" onclick="btnActivarCaja(' . $data[$i]['id_caja'] . ')" title="Activar"><i class="fas fa-arrow-circle-up" ></i></button>';
+                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCaja(' . $data[$i]['id_caja'] . ')" title="Editar"><i class="fas fa-edit"></i></button>  
+            <button class="btn btn-success" type="button" onclick="btnActivarCaja(' . $data[$i]['id_caja'] . ')" title="Activar"><i class="fas fa-arrow-circle-up"></i></button>';
             }
         }
         echo json_encode($data);
@@ -33,7 +34,6 @@ class Cajas extends Controller
     {
         $id_caja = $_POST['id_caja'];
         $caja = $_POST['caja'];
-
         if (empty($caja)) {
             $msg = "Todos los campos son obligatorios";
         } else {
@@ -42,14 +42,14 @@ class Cajas extends Controller
                 if ($data == "ok") {
                     $msg = "si";
                 } else {
-                    $msg = "Error al registrar caja";
+                    $msg = "Error al registrar el dato";
                 }
             } else {
                 $data = $this->model->modificarCaja($caja, $id_caja);
                 if ($data == "modificado") {
-                    $msg = "mod";
+                    $msg = "modi";
                 } else {
-                    $msg = "Error al modificar caja";
+                    $msg = "Error al modificar el dato";
                 }
             }
         }

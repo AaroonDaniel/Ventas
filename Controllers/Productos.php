@@ -3,13 +3,15 @@ class Productos extends Controller
 {
     public function __construct()
     {
+        session_start();
         parent::__construct();
     }
+
     public function index()
     {
-        $data['categorias']= $this->model->getCategorias();
-        $data['medidas']= $this->model->getMedidas();
-        $this->views->getView($this, "index", $data);
+        $data['categorias'] = $this->model->getCategorias();
+        $data['medidas'] = $this->model->getMedidas();
+        $this->views->getView($this, "index",$data);
     }
 
     public function listar()
@@ -19,11 +21,11 @@ class Productos extends Controller
             if ($data[$i]['producto_estado'] == 1) {
                 $data[$i]['producto_estado'] = '<span class="badge badge-success">Activo</span>';
                 $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarProducto(' . $data[$i]['id_producto'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-danger" type="button" onclick="btnInactivarProducto(' . $data[$i]['id_producto'] . ')" title="Inactivar"><i class="fas fa-trash-alt" ></i></button>';
+            <button class="btn btn-danger" type="button" onclick="btnInactivarProducto(' . $data[$i]['id_producto'] . ')" title="Inactivar"><i class="fas fa-trash-alt"></i></button>';
             } else {
                 $data[$i]['producto_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
-                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarProducto(' . $data[$i]['id_producto'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-success" type="button" onclick="btnActivarProducto(' . $data[$i]['id_producto'] . ')" title="Activar"><i class="fas fa-arrow-circle-up" ></i></button>';
+                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarProducto(' . $data[$i]['id_producto'] . ')" title="Editar"><i class="fas fa-edit"></i></button>  
+            <button class="btn btn-success" type="button" onclick="btnActivarProducto(' . $data[$i]['id_producto'] . ')" title="Activar"><i class="fas fa-arrow-circle-up"></i></button>';
             }
         }
         echo json_encode($data);
@@ -40,23 +42,22 @@ class Productos extends Controller
         $cantidad = $_POST['cantidad'];
         $id_categoria = $_POST['id_categoria'];
         $id_medida = $_POST['id_medida'];
-
         if (empty($codigo) || empty($nombre_producto)) {
             $msg = "Todos los campos son obligatorios";
         } else {
             if ($id_producto == "") {
-                $data = $this->model->registrarProducto($codigo, $nombre_producto, $costo_compra, $precio_venta, $cantidad, $id_categoria, $id_medida);
+                $data = $this->model->registrarProducto($codigo,$nombre_producto,$costo_compra,$precio_venta,$cantidad,$id_categoria,$id_medida);
                 if ($data == "ok") {
                     $msg = "si";
                 } else {
-                    $msg = "Error al registrar producto";
+                    $msg = "Error al registrar el dato";
                 }
             } else {
-                $data = $this->model->modificarProducto($codigo, $nombre_producto, $costo_compra, $precio_venta, $cantidad, $id_categoria, $id_medida, $id_producto);
+                $data = $this->model->modificarProducto($codigo,$nombre_producto,$costo_compra,$precio_venta,$cantidad,$id_categoria,$id_medida,$id_producto);
                 if ($data == "modificado") {
-                    $msg = "mod";
+                    $msg = "modi";
                 } else {
-                    $msg = "Error al modificar producto";
+                    $msg = "Error al modificar el dato";
                 }
             }
         }

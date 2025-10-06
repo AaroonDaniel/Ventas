@@ -208,10 +208,8 @@ function emitirFactura(){
     let codigoCliente = document.getElementById("documentoid").value
     let codigoMetodoPago = 1
     let numeroTarjeta = null
+    let montoTotal = document.getElementById("total").value
     
-
-    //2025-09-22T20:26:31.275Z
-    //2025-09-22T16:30:09.379Z
-    //2025-09-22T16:33:15.587
-    console.log(fechaEmision)
+    
+    
 }

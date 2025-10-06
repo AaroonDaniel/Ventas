@@ -3,11 +3,12 @@ class Categorias extends Controller
 {
     public function __construct()
     {
+        session_start();
         parent::__construct();
     }
+
     public function index()
     {
-
         $this->views->getView($this, "index");
     }
 
@@ -18,11 +19,11 @@ class Categorias extends Controller
             if ($data[$i]['categoria_estado'] == 1) {
                 $data[$i]['categoria_estado'] = '<span class="badge badge-success">Activo</span>';
                 $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCategoria(' . $data[$i]['id_categoria'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-danger" type="button" onclick="btnInactivarCategoria(' . $data[$i]['id_categoria'] . ')" title="Inactivar"><i class="fas fa-trash-alt" ></i></button>';
+            <button class="btn btn-danger" type="button" onclick="btnInactivarCategoria(' . $data[$i]['id_categoria'] . ')" title="Inactivar"><i class="fas fa-trash-alt"></i></button>';
             } else {
                 $data[$i]['categoria_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
-                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCategoria(' . $data[$i]['id_categoria'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-success" type="button" onclick="btnActivarCategoria(' . $data[$i]['id_categoria'] . ')" title="Activar"><i class="fas fa-arrow-circle-up" ></i></button>';
+                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCategoria(' . $data[$i]['id_categoria'] . ')" title="Editar"><i class="fas fa-edit"></i></button>  
+            <button class="btn btn-success" type="button" onclick="btnActivarCategoria(' . $data[$i]['id_categoria'] . ')" title="Activar"><i class="fas fa-arrow-circle-up"></i></button>';
             }
         }
         echo json_encode($data);
@@ -38,18 +39,18 @@ class Categorias extends Controller
             $msg = "Todos los campos son obligatorios";
         } else {
             if ($id_categoria == "") {
-                $data = $this->model->registrarCategoria($nombre_categoria, $codigoProductoSin);
+                $data = $this->model->registrarCategoria($nombre_categoria,$codigoProductoSin);
                 if ($data == "ok") {
                     $msg = "si";
                 } else {
-                    $msg = "Error al registrar categoria";
+                    $msg = "Error al registrar el dato";
                 }
             } else {
-                $data = $this->model->modificarCategoria($nombre_categoria, $codigoProductoSin, $id_categoria);
+                $data = $this->model->modificarCategoria($nombre_categoria,$codigoProductoSin,$id_categoria);
                 if ($data == "modificado") {
-                    $msg = "mod";
+                    $msg = "modi";
                 } else {
-                    $msg = "Error al modificar categoria";
+                    $msg = "Error al modificar el dato";
                 }
             }
         }

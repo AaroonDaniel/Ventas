@@ -1,25 +1,23 @@
-<?php require_once "Views/Templates/header.php"; ?>
-
+<?php require_once "Views/Templates/header.php" ?>
 <div class="card">
     <div class="card-header">
-        <div class="card-title">Lista de Productos</div>
+        <div class="card-title">Productos</div>
     </div>
     <div class="card-body">
-        <button class="btn btn-success" type="button" onclick="frmProducto()"><i class="fas fa-plus"></i> Nueva producto</button>
+        <button class="btn btn-success" type="button" onclick="frmProducto()"><i class="fas fa-plus"></i> Nuevo producto</button>
         <table id="tblProductos" class="table">
             <thead>
                 <tr>
-                    <th>Codigo</th>
+                    <th>Código</th>
                     <th>Cod. SIAT</th>
                     <th>Nombre de producto</th>
-                    <th>Nombre de categoria/th>
-                    <th>U.medida</th>
+                    <th>Categoría</th>
+                    <th>U. medida</th>
                     <th>Costo</th>
                     <th>Precio</th>
-                    <th>Cantidad </th>
+                    <th>Cantidad</th>
                     <th>Estado</th>
                     <th></th>
-
                 </tr>
             </thead>
         </table>
@@ -42,7 +40,6 @@
                         <input type="hidden" id="id_producto" name="id_producto">
                         <input type="text" class="form-control" id="nombre_producto" name="nombre_producto">
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -56,7 +53,6 @@
                                 <input type="number" class="form-control" id="cantidad" name="cantidad">
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="costo_compra" class="col-form-label">Costo:</label>
@@ -80,7 +76,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="id_medida" class="col-form-label">U. medida:</label>
@@ -94,7 +89,6 @@
                     </div>
                 </form>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary" id="btnAccion" onclick="registrarProducto(event)">Guardar</button>
@@ -102,5 +96,4 @@
         </div>
     </div>
 </div>
-
 <?php require_once "Views/Templates/footer.php"; ?>

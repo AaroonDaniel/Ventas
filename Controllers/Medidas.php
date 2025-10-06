@@ -3,11 +3,12 @@ class Medidas extends Controller
 {
     public function __construct()
     {
+        session_start();
         parent::__construct();
     }
+
     public function index()
     {
-
         $this->views->getView($this, "index");
     }
 
@@ -18,11 +19,11 @@ class Medidas extends Controller
             if ($data[$i]['medida_estado'] == 1) {
                 $data[$i]['medida_estado'] = '<span class="badge badge-success">Activo</span>';
                 $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarMedida(' . $data[$i]['id_medida'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-danger" type="button" onclick="btnInactivarMedida(' . $data[$i]['id_medida'] . ')" title="Inactivar"><i class="fas fa-trash-alt" ></i></button>';
+            <button class="btn btn-danger" type="button" onclick="btnInactivarMedida(' . $data[$i]['id_medida'] . ')" title="Inactivar"><i class="fas fa-trash-alt"></i></button>';
             } else {
                 $data[$i]['medida_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
-                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarMedida(' . $data[$i]['id_medida'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-success" type="button" onclick="btnActivarMedida(' . $data[$i]['id_medida'] . ')" title="Activar"><i class="fas fa-arrow-circle-up" ></i></button>';
+                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarMedida(' . $data[$i]['id_medida'] . ')" title="Editar"><i class="fas fa-edit"></i></button>  
+            <button class="btn btn-success" type="button" onclick="btnActivarMedida(' . $data[$i]['id_medida'] . ')" title="Activar"><i class="fas fa-arrow-circle-up"></i></button>';
             }
         }
         echo json_encode($data);
@@ -35,22 +36,22 @@ class Medidas extends Controller
         $descripcion_medida = $_POST['descripcion_medida'];
         $descripcion_corta = $_POST['descripcion_corta'];
         $unidad_siat = $_POST['unidad_siat'];
-        if (empty($descripcion_medida) || empty($descripcion_corta)|| empty($unidad_siat)) {
+        if (empty($descripcion_medida)  || empty($descripcion_corta)|| empty($unidad_siat)) {
             $msg = "Todos los campos son obligatorios";
         } else {
             if ($id_medida == "") {
-                $data = $this->model->registrarMedida($descripcion_medida, $descripcion_corta, $unidad_siat);
+                $data = $this->model->registrarMedida($descripcion_medida,$descripcion_corta,$unidad_siat);
                 if ($data == "ok") {
                     $msg = "si";
                 } else {
-                    $msg = "Error al registrar medida";
+                    $msg = "Error al registrar el dato";
                 }
             } else {
-                $data = $this->model->modificarMedida($descripcion_medida, $descripcion_corta, $unidad_siat, $id_medida);
+                $data = $this->model->modificarMedida($descripcion_medida,$descripcion_corta,$unidad_siat,$id_medida);
                 if ($data == "modificado") {
-                    $msg = "mod";
+                    $msg = "modi";
                 } else {
-                    $msg = "Error al modificar medida";
+                    $msg = "Error al modificar el dato";
                 }
             }
         }

@@ -1,13 +1,15 @@
+
 <?php
 class Clientes extends Controller
 {
     public function __construct()
     {
+        session_start();
         parent::__construct();
     }
+
     public function index()
     {
-
         $this->views->getView($this, "index");
     }
 
@@ -18,11 +20,11 @@ class Clientes extends Controller
             if ($data[$i]['cliente_estado'] == 1) {
                 $data[$i]['cliente_estado'] = '<span class="badge badge-success">Activo</span>';
                 $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCliente(' . $data[$i]['id_cliente'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-danger" type="button" onclick="btnInactivarCliente(' . $data[$i]['id_cliente'] . ')" title="Inactivar"><i class="fas fa-trash-alt" ></i></button>';
+            <button class="btn btn-danger" type="button" onclick="btnInactivarCliente(' . $data[$i]['id_cliente'] . ')" title="Inactivar"><i class="fas fa-trash-alt"></i></button>';
             } else {
                 $data[$i]['cliente_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
-                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCliente(' . $data[$i]['id_cliente'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-success" type="button" onclick="btnActivarCliente(' . $data[$i]['id_cliente'] . ')" title="Activar"><i class="fas fa-arrow-circle-up" ></i></button>';
+                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarCliente(' . $data[$i]['id_cliente'] . ')" title="Editar"><i class="fas fa-edit"></i></button>  
+            <button class="btn btn-success" type="button" onclick="btnActivarCliente(' . $data[$i]['id_cliente'] . ')" title="Activar"><i class="fas fa-arrow-circle-up"></i></button>';
             }
         }
         echo json_encode($data);
@@ -36,23 +38,22 @@ class Clientes extends Controller
         $complementoid = $_POST['complementoid'];
         $razon_social = $_POST['razon_social'];
         $cliente_email = $_POST['cliente_email'];
-
         if (empty($documentoid) || empty($razon_social)) {
             $msg = "Todos los campos son obligatorios";
         } else {
             if ($id_cliente == "") {
-                $data = $this->model->registrarCliente($documentoid, $complementoid, $razon_social, $cliente_email);
+                $data = $this->model->registrarCliente($documentoid,$complementoid,$razon_social,$cliente_email);
                 if ($data == "ok") {
                     $msg = "si";
                 } else {
-                    $msg = "Error al registrar cliente";
+                    $msg = "Error al registrar el dato";
                 }
             } else {
-                $data = $this->model->modificarCliente($documentoid, $complementoid, $razon_social, $cliente_email, $id_cliente);
+                $data = $this->model->modificarCliente($documentoid,$complementoid,$razon_social,$cliente_email,$id_cliente);
                 if ($data == "modificado") {
-                    $msg = "mod";
+                    $msg = "modi";
                 } else {
-                    $msg = "Error al modificar cliente";
+                    $msg = "Error al modificar el dato";
                 }
             }
         }

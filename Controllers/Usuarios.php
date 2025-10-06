@@ -3,8 +3,10 @@ class Usuarios extends Controller
 {
     public function __construct()
     {
+        session_start();
         parent::__construct();
     }
+
     public function index()
     {
         $data['cajas'] = $this->model->getCajas();
@@ -18,12 +20,14 @@ class Usuarios extends Controller
         } else {
             $nick = $_POST['nick'];
             $clave = $_POST['clave'];
-
             $data = $this->model->getUsuario($nick, md5($clave));
             if ($data) {
+                $_SESSION['id_usuario'] = $data['id_usuario'];
+                $_SESSION['nick'] = $data['nick'];
+                $_SESSION['nombre'] = $data['nombre'];
                 $msg = "ok";
             } else {
-                $msg = "Usuario o clave incorrecta";
+                $msg = "Usuario o contraseña incorrecta";
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
@@ -37,13 +41,12 @@ class Usuarios extends Controller
             if ($data[$i]['usuario_estado'] == 1) {
                 $data[$i]['usuario_estado'] = '<span class="badge badge-success">Activo</span>';
                 $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarUsuario(' . $data[$i]['id_usuario'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-danger" type="button" onclick="btnInactivarUsuario(' . $data[$i]['id_usuario'] . ')" title="Inactivar"><i class="fas fa-trash-alt" ></i></button>';
+            <button class="btn btn-danger" type="button" onclick="btnInactivarUsuario(' . $data[$i]['id_usuario'] . ')" title="Inactivar"><i class="fas fa-trash-alt"></i></button>';
             } else {
                 $data[$i]['usuario_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
-                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarUsuario(' . $data[$i]['id_usuario'] . ')" title="Editar"><i class="fas fa-edit"></i></button> 
-            <button class="btn btn-success" type="button" onclick="btnActivarUsuario(' . $data[$i]['id_usuario'] . ')" title="Activar"><i class="fas fa-arrow-circle-up" ></i></button>';
+                $data[$i]['acciones'] = '<button class="btn btn-warning" type="button" onclick="btnEditarUsuario(' . $data[$i]['id_usuario'] . ')" title="Editar"><i class="fas fa-edit"></i></button>  
+            <button class="btn btn-success" type="button" onclick="btnActivarUsuario(' . $data[$i]['id_usuario'] . ')" title="Activar"><i class="fas fa-arrow-circle-up"></i></button>';
             }
-            
         }
         echo json_encode($data);
         die();
@@ -57,7 +60,7 @@ class Usuarios extends Controller
         $clave = $_POST['clave'];
         $confirmar = $_POST['confirmar'];
         $id_caja = $_POST['id_caja'];
-        if (empty($nick) || empty($nombre) || empty($id_caja)) {
+        if (empty($nick) || empty($nombre) || empty($clave)) {
             $msg = "Todos los campos son obligatorios";
         } else {
             if ($id_usuario == "") {
@@ -68,15 +71,15 @@ class Usuarios extends Controller
                     if ($data == "ok") {
                         $msg = "si";
                     } else {
-                        $msg = "Error al registrar usuario";
+                        $msg = "Error al registrar el dato";
                     }
                 }
-            }else{
-                $data=$this->model->modificarUsuario($nick, $nombre, $id_caja, $id_usuario);
-                if($data=="modificado"){
-                    $msg="mod";
-                }else{
-                    $msg="Error al modificar usuario";
+            } else {
+                $data = $this->model->modificarUsuario($nick, $nombre, $id_caja, $id_usuario);
+                if ($data == "modificado") {
+                    $msg = "modi";
+                } else {
+                    $msg = "Error al modificar el dato";
                 }
             }
         }
@@ -93,11 +96,11 @@ class Usuarios extends Controller
 
     public function inactivar($id)
     {
-        $this->model->accion(0,$id);
+        $this->model->accion(0, $id);
     }
 
     public function activar($id)
     {
-        $this->model->accion(1,$id);
+        $this->model->accion(1, $id);
     }
 }
