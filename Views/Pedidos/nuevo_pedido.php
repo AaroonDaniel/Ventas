@@ -33,6 +33,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="razon_social">Razon social</label>
+                    <input type="hidden" id="id_cliente" name="id_cliente"> 
                     <input type="hidden" id="complementoid" name="complementoid">
                     <input type="text" id="razon_social" name="razon_social" class="form-control" readonly>
 

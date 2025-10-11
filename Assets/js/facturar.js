@@ -15,7 +15,7 @@ function buscarCliente() {
                     timer: 2000
                 })
             } else {
-                document.getElementById("documentoid").value = data["documentoid"]
+                document.getElementById("id_cliente").value = data["id_cliente"]
                 document.getElementById("complementoid").value = data["complementoid"]
                 document.getElementById("razon_social").value = data["razon_social"]
                 document.getElementById("cliente_email").value = data["cliente_email"]
@@ -196,6 +196,7 @@ cufd()
 
 
 function emitirFactura(){
+    let id_cliente = document.getElementById("id_cliente").value
     let numeroFactura = document.getElementById("nrofactura").value
     let cuf = "123456"
     let cufd = document.getElementById("cufdValor").value
@@ -269,7 +270,9 @@ function emitirFactura(){
     $.ajax({
         type: "POST",
         url: base_url + "Pedidos/emitirFactura",
-        data: {factura: datos},
+        data: {factura: datos,
+            id_cliente: id_cliente
+        },
         dataType: "json",
         success: function(data){
             console.log(data)                                           

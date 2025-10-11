@@ -22,4 +22,24 @@ class PedidosModel extends Query
         $data = $this->select($sql);
         return $data;
     }
+    public function guardarFactura(int $id_cliente, int $numeroFactura, string $cuf, string $fechaEmision, int $codigoMetodoPago, float $montoTotal, float $montoTotalSujetoIva, float $descuentoAdicional, string $productos, string $codigoRecepcion)
+    {
+        $sql = "INSERT INTO facturas (id_cliente, numeroFactura, cuf, fechaEmision, codigoMetodoPago, montoTotal, montoTotalSujetoIva, descuentoAdicional, productos, codigoRecepcion) VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+        $datos = array(
+            $id_cliente,
+            $numeroFactura,
+            $cuf,
+            $fechaEmision,
+            $codigoMetodoPago,
+            $montoTotal,
+            $montoTotalSujetoIva,
+            $descuentoAdicional,
+            $productos,
+            $codigoRecepcion
+        );
+
+        $data = $this->save($sql, $datos);
+        return $data == 1 ? "ok" : "error";
+    }
 }

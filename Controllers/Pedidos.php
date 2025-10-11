@@ -188,9 +188,24 @@ class Pedidos extends Controller
         require "Siat.php";
         $siat = new Siat();
         $resFactura = $siat->recepcionFactura($archivo, $fechaEmision, $hashArchivo);
-        echo json_encode($resFactura);
-
-        //E3ACE3F0A8D13E961CCCEAE0BB70452894D18DA7C62D31E474BB12F74
+        if($resFactura->RespuestaServicioFacturacion->transaccion == true){
+            $id_cliente = $_POST['id_cliente'];
+            $numeroFactura = $valores['numeroFactura'];
+            $codigoMetodoPago = 1;
+            $montoTotal = $valores['montoTotal'];
+            $montoTotalSujetoIva = $valores['montoTotal'];
+            $descuentoAdicional = $valores['descuentoAdicional'];
+            $productos = $archivoxml;
+            $codigoRecepcion = $resFactura->RespuestaServicioFacturacion->codigoRecepcion;
+            $data = $this->model->guardarFactura($id_cliente, $numeroFactura, $cuf, $fechaEmision, $codigoMetodoPago, $montoTotal, $montoTotalSujetoIva, $descuentoAdicional, $productos, $codigoRecepcion);
+            if($data == "error"){
+                $resFactura->RespuestaServicioFacturacion->transaccion = false;
+                $resFactura->RespuestaServicioFacturacion->mensajesList->descripcion = "Error al guardar en la base de datos";
+            }
+            echo json_encode($resFactura);
+        }else{
+            echo json_encode($resFactura);
+        }
     }
 
     public function calculaDigitoMod11(string $cadena, int $numDig, int $limMult, bool $x10): string
