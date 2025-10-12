@@ -22,6 +22,16 @@ class PedidosModel extends Query
         $data = $this->select($sql);
         return $data;
     }
+
+    public function getFacturas()
+    {
+        $sql = "select f.*,c.razon_social, c.documentoid 
+        from facturas f
+        inner join clientes c on c.id_cliente=f.id_cliente";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
     public function guardarFactura(int $id_cliente, int $numeroFactura, string $cuf, string $fechaEmision, int $codigoMetodoPago, float $montoTotal, float $montoTotalSujetoIva, float $descuentoAdicional, string $productos, string $codigoRecepcion)
     {
         $sql = "INSERT INTO facturas (id_cliente, numeroFactura, cuf, fechaEmision, codigoMetodoPago, montoTotal, montoTotalSujetoIva, descuentoAdicional, productos, codigoRecepcion) VALUES (?,?,?,?,?,?,?,?,?,?)";

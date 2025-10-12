@@ -12,6 +12,22 @@ class Pedidos extends Controller
         $this->views->getView($this, "index");
     }
 
+    public function listar()
+    {
+        $data = $this->model->getFacturas();
+        for ($i = 0; $i < count($data); $i++) {
+            if ($data[$i]['factura_estado'] == 1) {
+                $data[$i]['factura_estado'] = '<span class="badge badge-success">Activo</span>';
+                
+            } else {
+                $data[$i]['factura_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
+            }
+            $data[$i]['acciones'] = '<button class="btn btn-primary" type="button" onclick="imprimir(' . $data[$i]['id_factura'] . ')" title="Imprimir"><i class="fas fa-print"></i></button>';
+        }
+        echo json_encode($data);
+        die();
+    }
+
     public function nuevo_pedido()
     {
         $this->views->getView($this, "nuevo_pedido");

@@ -275,7 +275,24 @@ function emitirFactura(){
         },
         dataType: "json",
         success: function(data){
-            console.log(data)                                           
+            if(data.RespuestaServicioFacturacion.transaccion == true){
+                Swal.fire({
+                    title: data.RespuestaServicioFacturacion.codigoDescripcion,
+                    text: "Codigo recepcion " + data.RespuestaServicioFacturacion.codigoRecepcion,
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false
+                })
+                setTimeout(() => {
+                    window.location.href = base_url + "Pedidos"
+                },2000)
+            } else {
+                Swal.fire ({
+                    title: data.RespuestaServicioFacturacion.codigoDescripcion,
+                    text: data.RespuestaServicioFacturacion.mensajesList.descripcion,
+                    icon: "error"
+                })
+            }            
         }
     })
 }

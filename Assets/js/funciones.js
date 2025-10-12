@@ -4,6 +4,7 @@ let tblClientes;
 let tblCategorias;
 let tblMedidas;
 let tblProductos;
+let tblFacturas;
 document.addEventListener("DOMContentLoaded", function () {
   tblUsuarios = $("#tblUsuarios").DataTable({
     ajax: {
@@ -189,6 +190,42 @@ document.addEventListener("DOMContentLoaded", function () {
       { data: "precio_venta" },
       { data: "cantidad" },
       { data: "producto_estado" },
+      { data: "acciones" },
+    ],
+    language: {
+      decimal: "",
+      emptyTable: "No hay información",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+      infoFiltered: "(Filtrado de _MAX_ total entradas)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ Entradas",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "Sin resultados encontrados",
+      paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior",
+      },
+    },
+  });
+  tblFacturas = $("#tblFacturas").DataTable({
+    ajax: {
+      url: base_url + "Pedidos/listar",
+      dataSrc: "",
+    },
+    columns: [
+      { data: "razon_social" },
+      { data: "documentoid" },
+      { data: "numeroFactura" },
+      { data: "fechaEmision" },
+      { data: "montoTotal" },
+      { data: "descuentoAdicional" },
+      { data: "factura_estado" },
       { data: "acciones" },
     ],
     language: {
