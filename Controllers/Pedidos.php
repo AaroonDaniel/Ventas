@@ -17,12 +17,11 @@ class Pedidos extends Controller
         $data = $this->model->getFacturas();
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['factura_estado'] == 1) {
-                $data[$i]['factura_estado'] = '<span class="badge badge-success">Activo</span>';
-                
+                $data[$i]['factura_estado'] = '<a href="https://pilotosiat.impuestos.gob.bo/consulta/QR?nit=3327479013&cuf=' . $data[$i]['cuf'] . '&numero=' . $data[$i]['numeroFactura'] . '&t=2" title="Imprimir" target="_blank"><span class="badge badge-success">Valida</span></a>';
             } else {
                 $data[$i]['factura_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
             }
-            $data[$i]['acciones'] = '<button class="btn btn-primary" type="button" onclick="imprimir(' . $data[$i]['id_factura'] . ')" title="Imprimir"><i class="fas fa-print"></i></button>';
+            $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $data[$i]['id_factura'] . '" class="btn btn-primary" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>';
         }
         echo json_encode($data);
         die();
@@ -204,7 +203,7 @@ class Pedidos extends Controller
         require "Siat.php";
         $siat = new Siat();
         $resFactura = $siat->recepcionFactura($archivo, $fechaEmision, $hashArchivo);
-        if($resFactura->RespuestaServicioFacturacion->transaccion == true){
+        if ($resFactura->RespuestaServicioFacturacion->transaccion == true) {
             $id_cliente = $_POST['id_cliente'];
             $numeroFactura = $valores['numeroFactura'];
             $codigoMetodoPago = 1;
@@ -214,12 +213,12 @@ class Pedidos extends Controller
             $productos = $archivoxml;
             $codigoRecepcion = $resFactura->RespuestaServicioFacturacion->codigoRecepcion;
             $data = $this->model->guardarFactura($id_cliente, $numeroFactura, $cuf, $fechaEmision, $codigoMetodoPago, $montoTotal, $montoTotalSujetoIva, $descuentoAdicional, $productos, $codigoRecepcion);
-            if($data == "error"){
+            if ($data == "error") {
                 $resFactura->RespuestaServicioFacturacion->transaccion = false;
                 $resFactura->RespuestaServicioFacturacion->mensajesList->descripcion = "Error al guardar en la base de datos";
             }
             echo json_encode($resFactura);
-        }else{
+        } else {
             echo json_encode($resFactura);
         }
     }
@@ -292,5 +291,192 @@ class Pedidos extends Controller
                 }
             }
         }
+    }
+
+    public function imprimirFactura()
+    {
+        $id_factura = $_GET['id'];
+        $data = $this->model->getFactura($id_factura);
+        $xml = $data['productos'];
+        $archivoxml = new SimpleXMLElement($xml);
+        $valor = $archivoxml->cabecera[0];
+        $razonSocialEmisor = $valor->razonSocialEmisor;
+        $nitEmisor = $valor->nitEmisor;
+        $codigoSucursal = $valor->codigoSucursal;
+        if ($codigoSucursal == 0) {
+            $sucursal = "CASA MATRIZ";
+        } else {
+            $sucursal = "SUCURSAL N. " . $codigoSucursal;
+        }
+        $numeroFactura = $valor->numeroFactura;
+        $codigoPuntoVenta = $valor->codigoPuntoVenta;
+        $cuf = $valor->cuf;
+        $direccion = $valor->direccion;
+        $telefono = $valor->telefono;
+        $municipio = $valor->municipio;
+        $fechaEmision = substr(str_replace("T", " ", $valor->fechaEmision), 0, -4);
+        $numeroDocumento = $valor->numeroDocumento;
+        $complemento = $valor->complemento;
+        if ($complemento != "") {
+            $nitcliente = $numeroDocumento . '-' . $complemento;
+        } else {
+            $nitcliente = $numeroDocumento;
+        }
+        $nombreRazonSocial = $valor->nombreRazonSocial;
+        $descuentoAdicional = $valor->descuentoAdicional;
+        $montoTotal = $valor->montoTotal;
+        $montoGiftCard = $valor->montoGiftCard;
+        $leyenda = $valor->leyenda;
+        require('Assets/fpdf/fpdf.php');
+        $pdf = new FPDF('P', 'mm', 'Letter');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 9);
+        //$pdf->Cell(98, 5, utf8_decode(''),1,0,'L');
+        //$pdf->Cell(98, 5, utf8_decode(''),1,1,'L');
+
+        $pdf->Cell(60, 4, utf8_decode($razonSocialEmisor), 0, 0, 'C');
+        $pdf->Cell(38, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->Cell(30, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(36.5, 4, utf8_decode('NIT'), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(0, 4, utf8_decode($nitEmisor), 0, 1, 'L');
+
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(60, 4, utf8_decode($sucursal), 0, 0, 'C');
+        $pdf->Cell(38, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->Cell(30, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(36.5, 4, utf8_decode('FACTURA N°'), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(0, 4, utf8_decode($numeroFactura), 0, 1, 'L');
+
+        $pdf->Cell(60, 4, utf8_decode('No. Punto de Venta ' . $codigoPuntoVenta), 0, 0, 'C');
+        $pdf->Cell(38, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->Cell(30, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(36.5, 4, utf8_decode('CÓD. AUTORIZACIÓN'), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 8);
+        $y = $pdf->GetY();
+        $pdf->MultiCell(0, 3, utf8_decode($cuf), 0, 'L');
+
+        $pdf->SetY($y + 4);
+        $pdf->Cell(60, 4, utf8_decode($direccion), 0, 1, 'C');
+        $pdf->Cell(60, 4, utf8_decode('Teléfono: ' . $telefono), 0, 1, 'C');
+        $pdf->Cell(60, 4, utf8_decode($municipio), 0, 1, 'C');
+
+        $pdf->Ln(8);
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->Cell(0, 6, utf8_decode('FACTURA'), 0, 1, 'C');
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(0, 6, utf8_decode('(Con Derecho a Crédito Fiscal)'), 0, 1, 'C');
+        $pdf->Ln();
+
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(41, 5, utf8_decode('Fecha:'), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(57, 5, utf8_decode($fechaEmision), 0, 0, 'L');
+        $pdf->Cell(40, 5, utf8_decode(''), 0, 0, 'L');
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(29, 5, utf8_decode('NIT/CI/CEX:    '), 0, 0, 'R');
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(0, 5, utf8_decode($nitcliente), 0, 1, 'L');
+
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(41, 5, utf8_decode('Nombre/Razón Social:'), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(57, 5, utf8_decode($nombreRazonSocial), 0, 0, 'L');
+        $pdf->Cell(40, 5, utf8_decode(''), 0, 0, 'L');
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(29, 5, utf8_decode('Cod. Cliente:    '), 0, 0, 'R');
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(0, 5, utf8_decode($numeroDocumento), 0, 1, 'L');
+        $pdf->Ln();
+
+        $pdf->SetFont('Arial', 'B', 8);
+        $y = $pdf->GetY();
+        $pdf->MultiCell(29, 4, utf8_decode('CÓDIGO PRODUCTO / SERVICIO'), 1, 'C');
+        $pdf->SetY($y);
+        $pdf->SetX(39);
+        $pdf->MultiCell(21, 4, utf8_decode("\nCANTIDAD\n "), 1, 'C');
+        $pdf->SetY($y);
+        $pdf->SetX(60);
+        $pdf->MultiCell(19, 4, utf8_decode("\nUNIDAD DE MEDIDA"), 1, 'C');
+        $pdf->SetY($y);
+        $pdf->SetX(79);
+        $pdf->MultiCell(51, 4, utf8_decode("\nDESCRIPCIÓN\n "), 1, 'C');
+        $pdf->SetY($y);
+        $pdf->SetX(130);
+        $pdf->MultiCell(25, 4, utf8_decode("\nPRECIO UNITARIO"), 1, 'C');
+        $pdf->SetY($y);
+        $pdf->SetX(155);
+        $pdf->MultiCell(25, 4, utf8_decode("\nDESCUENTO\n "), 1, 'C');
+        $pdf->SetY($y);
+        $pdf->SetX(180);
+        $pdf->MultiCell(0, 4, utf8_decode("\nSUBTOTAL\n "), 1, 'C');
+
+        $pdf->SetFont('Arial', '', 8);
+
+        $lista_productos = $archivoxml->detalle;
+        $subTotal = 0;
+        foreach ($lista_productos as $p) {
+            $pdf->Cell(29, 7, utf8_decode($p->codigoProducto), 1, 0, 'L');
+            $pdf->Cell(21, 7, number_format(floatval($p->cantidad), 2), 1, 0, 'R');
+            $pdf->Cell(19, 7, utf8_decode("UNIDAD"), 1, 0, 'L');
+            $pdf->Cell(51, 7, utf8_decode($p->descripcion), 1, 0, 'L');
+            $pdf->Cell(25, 7, number_format(floatval($p->precioUnitario), 2), 1, 0, 'R');
+            $pdf->Cell(25, 7, number_format(floatval($p->montoDescuento), 2), 1, 0, 'R');
+            $pdf->Cell(0, 7, number_format(floatval($p->subTotal), 2), 1, 1, 'R');
+            $subTotal += $p->subTotal;
+        }
+
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(120, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->Cell(50, 4, utf8_decode("SUBTOTAL Bs"), 1, 0, 'R');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(0, 4, number_format($subTotal, 2), 1, 1, 'R');
+
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(120, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->Cell(50, 4, utf8_decode("DESCUENTO Bs"), 1, 0, 'R');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(0, 4, number_format(floatval($descuentoAdicional), 2), 1, 1, 'R');
+
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(120, 4, utf8_decode('Son: Trescientos nueve 51/100 Bolivianos'), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(50, 4, utf8_decode("TOTAL Bs"), 1, 0, 'R');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(0, 4, number_format(floatval($montoTotal), 2), 1, 1, 'R');
+
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(120, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->Cell(50, 4, utf8_decode("MONTO GIFT CARD Bs"), 1, 0, 'R');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(0, 4, number_format(floatval($montoGiftCard), 2), 1, 1, 'R');
+
+        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->Cell(120, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->Cell(50, 4, utf8_decode("MONTO A PAGAR Bs"), 1, 0, 'R');
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(0, 4, number_format(floatval($montoTotal), 2), 1, 1, 'R');
+
+        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->Cell(120, 4, utf8_decode(''), 0, 0, 'L');
+        $pdf->Cell(50, 4, utf8_decode("IMPORTE BASE CRÉDITO FISCAL"), 1, 0, 'R');
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(0, 4, number_format(floatval($montoTotal), 2), 1, 1, 'R');
+
+        $pdf->Ln(7);
+        $y = $pdf->GetY();
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(170, 7, utf8_decode('ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY'), 0, 1, 'C');
+        $pdf->SetFont('Arial', '', 7.5);
+        $pdf->Cell(170, 5, utf8_decode($leyenda), 0, 1, 'C');
+        $pdf->Cell(170, 5, utf8_decode('"Este documento es la Representación Gráfica de un Documento Fiscal Digital emitido en una modalidad de facturación en línea"'), 0, 1, 'C');
+
+        $pdf->Image("Assets/img/qrfactura.png", 180, $y, 23);
+
+        $pdf->Output("factura.pdf", "I");
     }
 }
