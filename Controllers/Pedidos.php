@@ -149,6 +149,21 @@ class Pedidos extends Controller
         echo json_encode($res);
     }
 
+    public function sincronizarParametricaMotivoAnulacion()
+    {
+        require "Siat.php";
+        $siat = new Siat();
+        $res = $siat->sincronizarParametricaMotivoAnulacion();
+        echo json_encode($res);
+    }
+    public function anulacionFactura($cuf)
+    {
+        require "Siat.php";
+        $siat = new Siat();
+        $res = $siat->anulacionFactura($cuf, 1);
+        echo json_encode($res);
+    }
+
     public function emitirFactura()
     {
         $datos = $_POST['factura'];
