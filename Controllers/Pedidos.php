@@ -164,6 +164,15 @@ class Pedidos extends Controller
         echo json_encode($res);
     }
 
+    public function reversionAnulacionFactura($cuf)
+    {
+        require "Siat.php";
+        $siat = new Siat();
+        $res = $siat->reversionAnulacionFactura($cuf);
+        echo json_encode($res);
+    }
+
+
     public function emitirFactura()
     {
         $datos = $_POST['factura'];
