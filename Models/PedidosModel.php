@@ -1,6 +1,7 @@
 <?php
 class PedidosModel extends Query
 {
+    private $id_factura, $factura_estado;
     public function __construct()
     {
         parent::__construct();
@@ -12,6 +13,16 @@ class PedidosModel extends Query
         $data = $this->select($sql);
         return $data;
     }
+
+    public function accion(int $estado, int $id){
+        $this->id_factura = $id;
+        $this->factura_estado = $estado;
+        $sql = "UPDATE facturas SET factura_estado = ? WHERE id_factura = ?";
+        $datos=array($this->factura_estado, $this->id_factura);
+        $data=$this->save($sql,$datos);
+        return $data;
+    }
+
     public function buscarProducto(string $codigo)
     {
         $sql = "SELECT p.*, m.descripcion_corta, m.unidad_siat, c.codigoProductoSin

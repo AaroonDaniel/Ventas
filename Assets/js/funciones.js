@@ -1158,3 +1158,64 @@ function btnActivarProducto(id) {
   });
 }
 
+function btnInactivarFactura(id) {
+  Swal.fire({
+    title: "¿Estas seguro de anular la factura?",
+    text: "",
+    icon: "warning",
+    showcancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, confirmar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = base_url + "Pedidos/inactivar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        console.log(this.responseText);
+        tblProductos.ajax.reload();
+      };
+      Swal.fire({
+        title: "Registrado activado",
+        text: "",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  });
+}
+
+function btnActivarFactura(id) {
+  Swal.fire({
+    title: "¿Estas seguro de anular la factura?",
+    text: "",
+    icon: "warning",
+    showcancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, confirmar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = base_url + "Pedidos/activar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        console.log(this.responseText);
+        tblProductos.ajax.reload();
+      };
+      Swal.fire({
+        title: "Registrado activado",
+        text: "",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  });
+}
+
+
