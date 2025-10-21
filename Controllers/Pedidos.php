@@ -18,10 +18,15 @@ class Pedidos extends Controller
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['factura_estado'] == 1) {
                 $data[$i]['factura_estado'] = '<a href="https://pilotosiat.impuestos.gob.bo/consulta/QR?nit=3327479013&cuf=' . $data[$i]['cuf'] . '&numero=' . $data[$i]['numeroFactura'] . '&t=2" title="Imprimir" target="_blank"><span class="badge badge-success">Valida</span></a>';
+                $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $data[$i]['id_factura'] . '" class="btn btn-primary" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>
+                <a href="' . base_url . 'Pedidos/anulacionFactura/' . $data[$i]['cuf'] . '" class="btn btn-danger" title="Anular Factura"><i class="fas fa-ban"></i></a>
+                ';
             } else {
                 $data[$i]['factura_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
+                $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $data[$i]['id_factura'] . '" class="btn btn-primary" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>
+                <a href="' . base_url . 'Pedidos/reversionAnulacionFactura/' . $data[$i]['cuf'] . '" class="btn btn-success" title="Habilitar factura"><i class="fas fa-check"></i></a>
+                ';
             }
-            $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $data[$i]['id_factura'] . '" class="btn btn-primary" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>';
         }
         echo json_encode($data);
         die();
