@@ -16,30 +16,39 @@ class Pedidos extends Controller
     {
         $data = $this->model->getFacturas();
         for ($i = 0; $i < count($data); $i++) {
+            $id_factura = $data[$i]['id_factura'];
+            $cuf = $data[$i]['cuf'];
+
+            // Lógica de visualización de estados y botones
             if ($data[$i]['factura_estado'] == 1) {
-                $data[$i]['factura_estado'] = '<a href="https://pilotosiat.impuestos.gob.bo/consulta/QR?nit=3327479013&cuf=' . $data[$i]['cuf'] . '&numero=' . $data[$i]['numeroFactura'] . '&t=2" title="Imprimir" target="_blank"><span class="badge badge-success">Valida</span></a>';
-                $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $data[$i]['id_factura'] . '" class="btn btn-primary" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>
-                <a href="' . base_url . 'Pedidos/anulacionFactura/' . $data[$i]['cuf'] . '" class="btn btn-danger" title="Anular Factura" onclick="btnInactivarFactura(' . $data[$i]['id_factura'] . ')"><i class="fas fa-ban"></i></a>
+                // Estado 1: Valida. Se puede anular.
+                $data[$i]['factura_estado'] = '<a href="https://pilotosiat.impuestos.gob.bo/consulta/QR?nit=3327479013&cuf=' . $cuf . '&numero=' . $data[$i]['numeroFactura'] . '&t=2" title="Imprimir" target="_blank"><span class="badge badge-success">Valida</span></a>';
+                // Llama a la función JS para la confirmación
+                $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $id_factura . '" class="btn btn-primary btn-sm" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>
+                <button class="btn btn-danger btn-sm" title="Anular Factura" onclick="confirmarAnulacion(\'' . $cuf . '\', ' . $id_factura . ')"><i class="fas fa-ban"></i></button>
                 ';
+            } elseif ($data[$i]['factura_estado'] == 0) {
+                // Estado 0: Anulada. Se puede revertir.
+                $data[$i]['factura_estado'] = '<span class="badge badge-danger">Anulada</span>';
+                // Llama a la función JS para la reversión
+                $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $id_factura . '" class="btn btn-primary btn-sm" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>
+                <button class="btn btn-success btn-sm" title="Revertir Anulación" onclick="confirmarReversion(\'' . $cuf . '\', ' . $id_factura . ')"><i class="fas fa-check"></i></button>
+                ';
+            } elseif ($data[$i]['factura_estado'] == 3) {
+                // Estado 3: Revalidada (FINAL). Botón deshabilitado.
+                $data[$i]['factura_estado'] = '<span class="badge badge-info">Revalidada</span>';
+                // El botón de anulación/reversión está deshabilitado
+                $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $id_factura . '" class="btn btn-primary btn-sm" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>
+                <button class="btn btn-secondary btn-sm" title="Acción no disponible" disabled><i class="fas fa-ban"></i></button>';
             } else {
+                // Otros estados
                 $data[$i]['factura_estado'] = '<span class="badge badge-secondary">Inactivo</span>';
-                $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $data[$i]['id_factura'] . '" class="btn btn-primary" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>
-                <button href="' . base_url . 'Pedidos/reversionAnulacionFactura/' . $data[$i]['cuf'] . '" class="btn btn-success" title="Habilitar factura"><i class="fas fa-check"></i></button>
-                ';
+                $data[$i]['acciones'] = '<a href="' . base_url . 'Pedidos/imprimirFactura?id=' . $id_factura . '" class="btn btn-primary btn-sm" title="Imprimir" target="_blank"><i class="fas fa-print"></i></a>
+                <button class="btn btn-secondary btn-sm" title="Sin Acción" disabled><i class="fas fa-ban"></i></button>';
             }
         }
         echo json_encode($data);
         die();
-    }
-
-    public function inactivar($id)
-    {
-        $this->model->accion(0, $id);
-    }
-
-    public function activar($id)
-    {
-        $this->model->accion(1, $id);
     }
 
     public function nuevo_pedido()
@@ -171,20 +180,53 @@ class Pedidos extends Controller
         $res = $siat->sincronizarParametricaMotivoAnulacion();
         echo json_encode($res);
     }
-    public function anulacionFactura($cuf)
+    public function anulacionFactura($cuf, $id_factura)
     {
+        if(!$cuf || !$id_factura){
+            $msg = "error";
+            echo json_encode($msg);
+            die();
+        }
+
         require "Siat.php";
         $siat = new Siat();
         $res = $siat->anulacionFactura($cuf, 1);
+        if(isset($res->RespuestaServicioFacturacion->transaccion)&&$res->RespuestaServicioFacturacion->transaccion == true){
+            $codigoDescripcion = $res->RespuestaServicioFacturacion->codigoDescripcion;
+            $codigoEstado = $res->RespuestaSercicioFacturacion->codigoEstado;
+            $codigoTransaccion = $res->RespuestaServicioFacturacion->transaccion;
+            $update_db = $this->model->accion(0,$id_factura);
+            $response['update_db_status'] = $update_db ? "success" : "error_db";
+        } else {
+            $response['update_db_status'] = "error siat";
+        }
+        
         echo json_encode($res);
+        die();
     }
 
-    public function reversionAnulacionFactura($cuf)
+    public function reversionAnulacionFactura($cuf, $id_factura)
     {
+        if(!$cuf || !$id_factura){
+            $msg = "error";
+            echo json_encode($msg);
+            die();
+        }
+
         require "Siat.php";
         $siat = new Siat();
         $res = $siat->reversionAnulacionFactura($cuf);
+        if(isset($res->RespuestaServicioFacturacion->transaccion)&&$res->RespuestaServicioFacturacion->transaccion == true){
+            $codigoDescripcion = $res->RespuestaServicioFacturacion->codigoDescripcion;
+            $codigoEstado = $res->RespuestaSercicioFacturacion->codigoEstado;
+            $codigoTransaccion = $res->RespuestaServicioFacturacion->transaccion;
+            $update_db = $this->model->accion(3,$id_factura);
+            $response['update_db_status'] = $update_db ? "success" : "error";
+        } else {
+            $response['update_db_status'] = "error siat ";
+        }
         echo json_encode($res);
+        die();
     }
 
 
